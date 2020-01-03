@@ -12,8 +12,8 @@
     </head>
     <body>
         <form id="registrationForm" method="post" action="/registration">
-            <label>Username: <input type="text" placeholder="enter your username" name="name"> </label> <br>
-            <label>Password:  <input type="text" placeholder="enter your password" name="password"></label> <br>
+            <label>Username: <input type="text" required placeholder="enter your username" name="name"> </label> <br>
+            <label>Password:  <input type="text" required placeholder="enter your password" name="password"></label> <br>
             <input type="submit" value="registration">
         </form>
     </body>
