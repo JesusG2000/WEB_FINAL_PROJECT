@@ -17,12 +17,7 @@ import java.util.List;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
-    private List<User> users;
 
-    @Override
-    public void init() throws ServletException {
-        users = new ArrayList<>();
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
