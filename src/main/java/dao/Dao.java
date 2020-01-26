@@ -1,7 +1,5 @@
 package dao;
 
-import dao.impl.UserDaoImpl;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -28,11 +26,11 @@ public abstract class Dao<T> {
         Dao.connection = connection;
     }
 
-    public abstract T create(String name , String password);
+    public abstract boolean create(T t);
 
-    public abstract T read (int index);
+    public abstract T read (T t);
 
-    public abstract T update (int index);
+    public abstract T update (T t);
 
-    public abstract T delete (int index);
+    public abstract T delete (T t);
 }
