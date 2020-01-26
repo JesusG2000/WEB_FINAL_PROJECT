@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/updateVacancy")
 public class UpdateVacancy extends HomeServlet {
-    private Dao<Vacancy> dao = new JdbcVacancyDao();
+    private Dao<Vacancy> dao;
 
     @Override
     public void init() throws ServletException {
