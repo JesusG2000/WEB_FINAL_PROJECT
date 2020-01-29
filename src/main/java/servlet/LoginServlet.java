@@ -2,6 +2,8 @@ package servlet;
 
 import dao.UserDao;
 import dao.impl.JdbcUserDao;
+import service.ServiceFactory;
+import service.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,11 +23,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDao userDao = new JdbcUserDao();
+        UserService userService = ServiceFactory.getCalcService();
+
         String username = req.getParameter("name");
         String password = req.getParameter("password");
 
         RequestDispatcher dispatcher;
-        if (userDao.isLogin(username, password)) {
+        if (userService.isLogin(username, password)) {
             dispatcher = req.getRequestDispatcher("/welcome");
             req.setAttribute("user", userDao.getUserByName(username));
         } else {
