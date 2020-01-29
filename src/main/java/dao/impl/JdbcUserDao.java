@@ -44,6 +44,14 @@ public class JdbcUserDao extends Dao<User> implements UserDao {
 
     @Override
     public User delete(User user) {
+        String sqlInsertUser = "DELETE  from users where id = ?";
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(sqlInsertUser);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -108,39 +116,5 @@ public class JdbcUserDao extends Dao<User> implements UserDao {
             e.printStackTrace();
         }
         return hrs;
-    }
-
-    @Override
-    public boolean checkNameDuplicate(String name) {
-        String query = "select name from users";
-
-        try {
-            ResultSet resultSet = getConnection().createStatement().executeQuery(query);
-            while (resultSet.next()) {
-                if (resultSet.getString(1).equals(name)) {
-                    return false;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-
-    @Override
-    public boolean isLogin(String username, String password) {
-        String query = "select name , password from users";
-
-        try {
-            ResultSet resultSet = getConnection().createStatement().executeQuery(query);
-            while (resultSet.next()) {
-                if (resultSet.getString(1).equals(username) && resultSet.getString(2).equals(password)) {
-                    return true;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 }

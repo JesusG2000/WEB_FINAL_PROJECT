@@ -73,7 +73,6 @@ public class JdbcVacancyDao extends Dao<Vacancy> implements VacancyDao {
 
     @Override
     public Vacancy delete(Vacancy vacancy) {
-        System.out.println(vacancy);
         String sqlInsertUser = "DELETE  from vacancy where id = ?";
         PreparedStatement preparedStatement = null;
         try {
