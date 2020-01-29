@@ -9,11 +9,21 @@
 
 
 <c:forEach var="seekers" items="${seekers}">
-    <c:out value="${seekers}"/>
-</c:forEach>
+<c:out value="${seekers}"/>
+<form action="/deleteUser" method="post">
+    <input type="hidden" name="id" value="${seekers.id}">
+    <input type="submit" value="delete">
+</form>
 
-<c:forEach var="hrs" items="${hrs}">
-    <c:out value="${hrs}"/>
+<p>
+    </c:forEach>
+
+    <c:forEach var="hrs" items="${hrs}">
+        <c:out value="${hrs}"/>
+<form action="/deleteUser" method="post">
+    <input type="hidden" name="id" value="${hrs.id}">
+    <input type="submit" value="delete">
+</form>
 </c:forEach>
 </body>
 </html>
