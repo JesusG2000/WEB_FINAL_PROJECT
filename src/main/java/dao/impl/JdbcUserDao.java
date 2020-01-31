@@ -2,6 +2,7 @@ package dao.impl;
 
 import bean.Role;
 import bean.User;
+import bean.Vacancy;
 import dao.Dao;
 import dao.UserDao;
 
@@ -38,15 +39,36 @@ public class JdbcUserDao extends Dao<User> implements UserDao {
     }
 
     @Override
+    public List<User> getAllByVacancyId(Vacancy vacancy) {
+        List<User> users = new LinkedList<>();
+        try {
+
+            String query = "select u.id , u.name , u .password , r.role_name from users u " +
+                    "left join role r on u.role=r.id where u.id in (select user_id from vac_responded where vacancy_id = ?);";
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+            preparedStatement.setInt(1, vacancy.getId());
+            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                users.add(getUserByName(resultSet.getString("name")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    @Override
     public User update(User user) {
         return null;
     }
 
     @Override
     public User delete(User user) {
-        String sqlInsertUser = "DELETE  from users where id = ?";
+        String query = "DELETE  from users where id = ?";
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement(sqlInsertUser);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

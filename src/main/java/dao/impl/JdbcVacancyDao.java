@@ -31,7 +31,7 @@ public class JdbcVacancyDao extends Dao<Vacancy> implements VacancyDao {
 
     @Override
     public Vacancy read(Vacancy vacancy) {
-
+        Vacancy newVacancy = new Vacancy();
         try {
 
             String sqlInsertUser = "SELECT * from vacancy where id = ?";
@@ -41,18 +41,15 @@ public class JdbcVacancyDao extends Dao<Vacancy> implements VacancyDao {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-               vacancy.setName(resultSet.getString("name"));
-               vacancy.setDescription(resultSet.getString("description"));
+                newVacancy.setId(resultSet.getInt("id"));
+                newVacancy.setName(resultSet.getString("name"));
+                newVacancy.setDescription(resultSet.getString("description"));
             }
-
-
-
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
-
-       return vacancy;
+        return newVacancy;
     }
 
     @Override
@@ -63,7 +60,7 @@ public class JdbcVacancyDao extends Dao<Vacancy> implements VacancyDao {
             preparedStatement = getConnection().prepareStatement(sqlInsertUser);
             preparedStatement.setString(1, vacancy.getName());
             preparedStatement.setString(2, vacancy.getDescription());
-            preparedStatement.setInt(3, (int) vacancy.getId());
+            preparedStatement.setInt(3, vacancy.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
