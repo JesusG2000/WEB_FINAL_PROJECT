@@ -15,6 +15,7 @@ public class User {
         this.role = role;
     }
 
+
     public User(int id, String name, String password) {
         this.id = id;
         this.name = name;
@@ -24,6 +25,10 @@ public class User {
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+    }
+
+    public User(int id) {
+        this.id = id;
     }
 
     public User() {
