@@ -1,3 +1,4 @@
+<%@ page import="bean.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,6 +12,7 @@
     User name = <c:out value="${user.name}"/><br>
     User role = <c:out value="${user.role}"/><br>
 </div>
+
 <a href="/home">home</a>
 </body>
 </html>
