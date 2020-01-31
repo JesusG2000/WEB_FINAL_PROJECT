@@ -1,5 +1,6 @@
 package servlet;
 
+import bean.User;
 import bean.Vacancy;
 import dao.Dao;
 import dao.impl.JdbcVacancyDao;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @WebServlet("/addVacancy")
-public class AddVacancyServlet extends HttpServlet {
+public class AddVacancyServlet extends MainServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.sendRedirect("/addVacancy.jsp");
@@ -25,5 +26,10 @@ public class AddVacancyServlet extends HttpServlet {
         if(vacancyDao.create(new Vacancy(name,description))){
             resp.sendRedirect("/home");
         }
+    }
+
+    @Override
+    public User isLogin(HttpServletRequest request) {
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package servlet;
 
+import bean.User;
 import dao.UserDao;
 import dao.impl.JdbcUserDao;
 
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @WebServlet("/adminHome")
-public class AdminHomeServlet extends HttpServlet {
+public class AdminHomeServlet extends MainServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDao userDao = new JdbcUserDao();
@@ -25,5 +26,9 @@ public class AdminHomeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+    }
+    @Override
+    public User isLogin(HttpServletRequest request) {
+        return null;
     }
 }

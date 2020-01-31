@@ -1,7 +1,10 @@
 package servlet;
 
+import bean.User;
 import bean.Vacancy;
 import dao.Dao;
+import dao.UserDao;
+import dao.impl.JdbcUserDao;
 import dao.impl.JdbcVacancyDao;
 
 import javax.servlet.RequestDispatcher;
@@ -12,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/updateVacancy")
-public class UpdateVacancy extends HomeServlet {
+public class UpdateVacancy extends MainServlet {
     private Dao<Vacancy> dao;
 
     @Override
@@ -22,12 +25,16 @@ public class UpdateVacancy extends HomeServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        Vacancy vacancy = dao.read(new Vacancy(Integer.parseInt(req.getParameter("id"))));
-        System.out.println(vacancy);
-        req.setAttribute("vacancy", vacancy);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/vacancyInfo.jsp");
-        dispatcher.forward(req, resp);
+        if(isLogin(req)!=null) {
+            UserDao userDao = new JdbcUserDao();
+            Vacancy vacancy = dao.read(new Vacancy(Integer.parseInt(req.getParameter("id"))));
+            req.setAttribute("vacancy", vacancy);
+            req.setAttribute("users", userDao.getAllByVacancyId(vacancy));
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/vacancyInfo.jsp");
+            dispatcher.forward(req, resp);
+        }else{
+            resp.sendRedirect("/login");
+        }
     }
 
     @Override
@@ -39,5 +46,9 @@ public class UpdateVacancy extends HomeServlet {
         dao.update(new Vacancy(id, name, description));
         resp.sendRedirect("/home");
 
+    }
+    @Override
+    public User isLogin(HttpServletRequest request) {
+        return checkLogin(request);
     }
 }

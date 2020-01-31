@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/registration")
-public class RegistrationServlet extends HttpServlet {
+public class RegistrationServlet extends MainServlet {
 
 
     @Override
@@ -41,6 +41,10 @@ public class RegistrationServlet extends HttpServlet {
             req.setAttribute("message", "This user has already registered");
             dispatcher.forward(req, resp);
         }
+    }
+    @Override
+    public User isLogin(HttpServletRequest request) {
+        return null;
     }
 }
 
