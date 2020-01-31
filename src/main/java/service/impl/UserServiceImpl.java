@@ -1,7 +1,6 @@
 package service.impl;
 
 import dao.Dao;
-import exception.ServiceException;
 import service.UserService;
 
 import java.sql.ResultSet;
@@ -9,7 +8,7 @@ import java.sql.SQLException;
 
 public class UserServiceImpl implements UserService {
     @Override
-    public boolean isRegistered(String name)  {
+    public boolean isRegistered(String name) {
         String query = "select name from users";
 
         try {
@@ -20,13 +19,13 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (SQLException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
         return true;
     }
 
     @Override
-    public boolean isLogin(String username, String password)  {
+    public boolean isExist(String username, String password) {
         String query = "select name , password from users";
 
         try {
