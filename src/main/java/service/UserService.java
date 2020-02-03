@@ -1,7 +1,9 @@
 package service;
 
-public interface UserService {
-    boolean isRegistered(String name) ;
+import bean.User;
 
-    boolean isExist(String username, String password) ;
+public interface UserService {
+    boolean isRegistered(User user) ;
+
+    boolean isExist(User user) ;
 }

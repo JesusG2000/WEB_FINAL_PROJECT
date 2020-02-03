@@ -17,7 +17,6 @@ public class VacRespondedServiceImpl implements VacRespondedService {
             PreparedStatement statement = Dao.getConnection().prepareStatement(query);
             statement.setInt(1,vacResponded.getUserId());
             statement.setInt(2,vacResponded.getVacancyId());
-            statement.executeQuery();
 
             ResultSet resultSet = statement.executeQuery();
 
