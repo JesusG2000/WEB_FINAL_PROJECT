@@ -13,6 +13,7 @@
 <form action="/deleteUser" method="post">
     <input type="hidden" name="id" value="${seekers.id}">
     <input type="submit" value="delete">
+
 </form>
 
 <p>

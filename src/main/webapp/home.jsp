@@ -44,5 +44,9 @@
     </a>
     </c:if>
 
+<div>
+    <a href="/profile">profile</a>
+</div>
+
 </body>
 </html>
