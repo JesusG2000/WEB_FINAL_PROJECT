@@ -4,7 +4,8 @@ import bean.User;
 import bean.dto.VacResponded;
 import dao.Dao;
 import dao.impl.JdbcVacRespondedDao;
-import servlet.MainServlet;
+import servlet.PageAccess;
+import servlet.view.MainServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/subVacancy")
-public class SubToVacancy extends MainServlet {
+public class SubToVacancy extends MainServlet implements PageAccess {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (isLogin(req) != null) {

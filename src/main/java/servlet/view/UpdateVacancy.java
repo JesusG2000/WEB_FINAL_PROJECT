@@ -1,4 +1,4 @@
-package servlet;
+package servlet.view;
 
 import bean.User;
 import bean.Vacancy;
@@ -6,6 +6,7 @@ import dao.Dao;
 import dao.UserDao;
 import dao.impl.JdbcUserDao;
 import dao.impl.JdbcVacancyDao;
+import servlet.PageAccess;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/updateVacancy")
-public class UpdateVacancy extends MainServlet {
+public class UpdateVacancy extends MainServlet implements PageAccess {
     private Dao<Vacancy> dao;
 
     @Override
@@ -29,7 +30,7 @@ public class UpdateVacancy extends MainServlet {
             UserDao userDao = new JdbcUserDao();
             Vacancy vacancy = dao.read(new Vacancy(Integer.parseInt(req.getParameter("id"))));
             req.setAttribute("vacancy", vacancy);
-            req.setAttribute("users", userDao.getAllByVacancyId(vacancy));
+            req.setAttribute("seekers", userDao.getAllByVacancyId(vacancy));
             RequestDispatcher dispatcher = req.getRequestDispatcher("/vacancyInfo.jsp");
             dispatcher.forward(req, resp);
         }else{

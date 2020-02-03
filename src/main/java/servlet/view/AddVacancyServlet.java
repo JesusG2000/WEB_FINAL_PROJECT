@@ -1,18 +1,18 @@
-package servlet;
+package servlet.view;
 
 import bean.User;
 import bean.Vacancy;
 import dao.Dao;
 import dao.impl.JdbcVacancyDao;
+import servlet.PageAccess;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @WebServlet("/addVacancy")
-public class AddVacancyServlet extends MainServlet {
+public class AddVacancyServlet extends MainServlet implements PageAccess {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.sendRedirect("/addVacancy.jsp");
@@ -30,6 +30,6 @@ public class AddVacancyServlet extends MainServlet {
 
     @Override
     public User isLogin(HttpServletRequest request) {
-        return null;
+        return checkLogin(request);
     }
 }

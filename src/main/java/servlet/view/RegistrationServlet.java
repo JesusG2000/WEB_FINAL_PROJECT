@@ -1,26 +1,30 @@
-package servlet;
+package servlet.view;
 
 import bean.User;
 import dao.Dao;
 import dao.impl.JdbcUserDao;
 import service.ServiceFactory;
 import service.UserService;
+import servlet.PageAccess;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/registration")
-public class RegistrationServlet extends MainServlet {
+public class RegistrationServlet extends MainServlet implements PageAccess {
 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/userRegistration");
+        if(isLogin(req)==null) {
+            resp.sendRedirect("/userRegistration");
+        }else{
+            resp.sendRedirect("/profile");
+        }
     }
 
     @Override
@@ -31,10 +35,10 @@ public class RegistrationServlet extends MainServlet {
 
         String nameGET = req.getParameter("name");
         String passwordGET = req.getParameter("password");
+        User user = new User(nameGET,passwordGET);
 
-
-        if (userService.isRegistered(nameGET)) {
-            dao.create(new User(nameGET, passwordGET));
+        if (!userService.isRegistered(user)) {
+            dao.create(user);
             resp.sendRedirect("/userLogin");
         } else {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/userRegistration");
@@ -42,9 +46,10 @@ public class RegistrationServlet extends MainServlet {
             dispatcher.forward(req, resp);
         }
     }
+
     @Override
     public User isLogin(HttpServletRequest request) {
-        return null;
+        return checkLogin(request);
     }
 }
 
