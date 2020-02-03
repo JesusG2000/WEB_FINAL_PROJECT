@@ -31,19 +31,16 @@ public class JdbcVacancyDao extends Dao<Vacancy> implements VacancyDao {
 
     @Override
     public Vacancy read(Vacancy vacancy) {
-        Vacancy newVacancy = new Vacancy();
+        Vacancy newVacancy = null;
         try {
 
             String sqlInsertUser = "SELECT * from vacancy where id = ?";
             PreparedStatement preparedStatement = getConnection().prepareStatement(sqlInsertUser);
             preparedStatement.setString(1, String.valueOf(vacancy.getId()));
-            preparedStatement.executeQuery();
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                newVacancy.setId(resultSet.getInt("id"));
-                newVacancy.setName(resultSet.getString("name"));
-                newVacancy.setDescription(resultSet.getString("description"));
+                newVacancy=vacancyMap(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,12 +49,20 @@ public class JdbcVacancyDao extends Dao<Vacancy> implements VacancyDao {
         return newVacancy;
     }
 
+    private Vacancy vacancyMap(ResultSet resultSet) throws SQLException {
+        Vacancy vacancy = new Vacancy();
+        vacancy.setId(resultSet.getInt("id"));
+        vacancy.setName(resultSet.getString("name"));
+        vacancy.setDescription(resultSet.getString("description"));
+        return vacancy;
+    }
+
     @Override
     public Vacancy update(Vacancy vacancy) {
         String sqlInsertUser = "UPDATE vacancy set name = ? , description = ? where id = ? ";
-        PreparedStatement preparedStatement = null;
+
         try {
-            preparedStatement = getConnection().prepareStatement(sqlInsertUser);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(sqlInsertUser);
             preparedStatement.setString(1, vacancy.getName());
             preparedStatement.setString(2, vacancy.getDescription());
             preparedStatement.setInt(3, vacancy.getId());
@@ -71,10 +76,9 @@ public class JdbcVacancyDao extends Dao<Vacancy> implements VacancyDao {
     @Override
     public Vacancy delete(Vacancy vacancy) {
         String sqlInsertUser = "DELETE  from vacancy where id = ?";
-        PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = getConnection().prepareStatement(sqlInsertUser);
-            preparedStatement.setInt(1, (int) vacancy.getId());
+            PreparedStatement preparedStatement = getConnection().prepareStatement(sqlInsertUser);
+            preparedStatement.setInt(1, vacancy.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,11 +95,7 @@ public class JdbcVacancyDao extends Dao<Vacancy> implements VacancyDao {
         try {
             ResultSet resultSet = getConnection().createStatement().executeQuery(query);
             while (resultSet.next()) {
-                Vacancy vacancy = new Vacancy();
-                vacancy.setId(resultSet.getInt("id"));
-                vacancy.setName(resultSet.getString("name"));
-                vacancy.setDescription(resultSet.getString("description"));
-                vacancies.add(vacancy);
+                vacancies.add(vacancyMap(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();

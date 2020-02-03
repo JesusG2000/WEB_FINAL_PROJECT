@@ -14,7 +14,7 @@ public class JdbcVacRespondedDao extends Dao<VacResponded> implements VacRespond
     @Override
     public boolean create(VacResponded vacResponded) {
         VacRespondedService service = new VacRespondedServiceImpl();
-        if(!service.isExist(vacResponded)) {
+        if (!service.isExist(vacResponded)) {
             String query = "insert into vac_responded (user_id,vacancy_id) values (? , ?)";
             try {
                 PreparedStatement preparedStatement = getConnection().prepareStatement(query);
@@ -31,22 +31,18 @@ public class JdbcVacRespondedDao extends Dao<VacResponded> implements VacRespond
 
     @Override
     public VacResponded read(VacResponded vacResponded) {
-        VacResponded newVacResponded = new VacResponded();
+        VacResponded newVacResponded = null;
         String query = "select * from vac_responded where vacancy_id = ? and user_id = ? ";
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-            preparedStatement.setInt(1,vacResponded.getUserId());
-            preparedStatement.setInt(2,vacResponded.getVacancyId());
-            preparedStatement.executeQuery();
+            preparedStatement.setInt(1, vacResponded.getUserId());
+            preparedStatement.setInt(2, vacResponded.getVacancyId());
 
-            ResultSet resultSet =  preparedStatement.executeQuery();
-            int id = resultSet.getInt("id");
-            int userId = resultSet.getInt("user_id");
-            int vacancyId = resultSet.getInt("vacancy_id");
-            newVacResponded.setId(id);
-            newVacResponded.setUserId(userId);
-            newVacResponded.setVacancyId(vacancyId);
-        }catch (SQLException e) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                newVacResponded = vacRespondedMap(resultSet);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return newVacResponded;
@@ -60,5 +56,13 @@ public class JdbcVacRespondedDao extends Dao<VacResponded> implements VacRespond
     @Override
     public VacResponded delete(VacResponded vacResponded) {
         return null;
+    }
+
+    private VacResponded vacRespondedMap(ResultSet resultSet) throws SQLException {
+        VacResponded vacResponded = new VacResponded();
+        vacResponded.setId(resultSet.getInt("id"));
+        vacResponded.setUserId(resultSet.getInt("user_id"));
+        vacResponded.setVacancyId(resultSet.getInt("vacancy_id"));
+        return vacResponded;
     }
 }
