@@ -8,22 +8,28 @@ public class Interview {
     private int id;
     private int hrId;
     private int seekerId;
+    private int vacancyId;
     private Date date;
     private String comment;
 
-    public Interview(int id, int hrId, int seekerId, Date date, String comment) {
+    public Interview(int id, int hrId, int seekerId, int vacancyId, Date date, String comment) {
         this.id = id;
         this.hrId = hrId;
         this.seekerId = seekerId;
+        this.vacancyId = vacancyId;
         this.date = date;
         this.comment = comment;
     }
 
-    public Interview(int hrId, int seekerId, Date date, String comment) {
+    public Interview(int hrId, int seekerId, int vacancyId, Date date, String comment) {
         this.hrId = hrId;
         this.seekerId = seekerId;
+        this.vacancyId = vacancyId;
         this.date = date;
         this.comment = comment;
+    }
+
+    public Interview() {
     }
 
     public int getId() {
@@ -50,12 +56,20 @@ public class Interview {
         this.seekerId = seekerId;
     }
 
+    public int getVacancyId() {
+        return vacancyId;
+    }
+
+    public void setVacancyId(int vacancyId) {
+        this.vacancyId = vacancyId;
+    }
+
     public Date getDate() {
         return date;
     }
 
-    public void setDate(Date data) {
-        this.date = data;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getComment() {
@@ -74,13 +88,14 @@ public class Interview {
         return id == interview.id &&
                 hrId == interview.hrId &&
                 seekerId == interview.seekerId &&
+                vacancyId == interview.vacancyId &&
                 Objects.equals(date, interview.date) &&
                 Objects.equals(comment, interview.comment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, hrId, seekerId, date, comment);
+        return Objects.hash(id, hrId, seekerId, vacancyId, date, comment);
     }
 
     @Override
@@ -89,6 +104,7 @@ public class Interview {
                 "id=" + id +
                 ", hrId=" + hrId +
                 ", seekerId=" + seekerId +
+                ", vacancyId=" + vacancyId +
                 ", date=" + date +
                 ", comment='" + comment + '\'' +
                 '}';
