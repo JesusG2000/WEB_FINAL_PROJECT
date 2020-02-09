@@ -1,8 +1,8 @@
 package bean;
 
 
-import java.util.Objects;
 import java.sql.Date;
+import java.util.Objects;
 
 public class Interview {
     private int id;

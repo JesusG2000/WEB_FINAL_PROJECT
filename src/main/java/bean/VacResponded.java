@@ -1,4 +1,4 @@
-package bean.dto;
+package bean;
 
 import java.util.Objects;
 

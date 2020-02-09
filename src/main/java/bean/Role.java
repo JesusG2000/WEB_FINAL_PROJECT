@@ -1,5 +1,5 @@
 package bean;
 
 public enum Role {
-    SEEKER, HR ,ADMIN
+    SEEKER, HR, ADMIN
 }

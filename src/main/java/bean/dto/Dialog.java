@@ -15,7 +15,7 @@ public class Dialog {
         this.messages = messages;
         this.otherUser = otherUser;
         this.ownUser = ownUser;
-}
+    }
 
     public Dialog(List<Message> messages) {
         this.messages = messages;

@@ -1,5 +1,8 @@
 package bean;
 
+import dao.impl.JdbcMessageDao;
+
+
 import java.util.Objects;
 
 public class User {
@@ -95,4 +98,12 @@ public class User {
                 ", role=" + role +
                 '}';
     }
+
+
+//    @Override
+//    public void handleEvent(User sender, String content) {
+//        Dao<Message> dao = new JdbcMessageDao();
+//        Message message = new Message(sender.getId(), this.getId(), content);
+//        dao.create(message);
+//    }
 }
