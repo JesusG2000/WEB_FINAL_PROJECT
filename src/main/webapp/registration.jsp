@@ -7,11 +7,12 @@
     <title>Registration</title>
 </head>
 <body>
-<form id="registrationForm" method="post" action="/registration">
+<form id="registrationForm" method="post" action="/welcome">
     <label>Username: <input type="text" minlength="4" maxlength="20" required placeholder="enter your username"
                             name="name"> </label> <br>
     <label>Password: <input type="password" minlength="4" maxlength="20" required placeholder="enter your password"
                             name="password"></label> <br>
+    <input type="hidden" name="command" value="registration">
     <input type="submit" value="registration">
 
     <c:if test="${message !=null}">

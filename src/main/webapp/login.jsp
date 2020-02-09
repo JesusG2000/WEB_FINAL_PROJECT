@@ -8,9 +8,10 @@
 </head>
 <body>
 
-<form id="loginForm" method="post" action="/login">
+<form id="loginForm" method="post" action="/welcome">
     <label>Username: <input type="text" required placeholder="enter your username" name="name"> </label> <br>
     <label>Password: <input type="password" required placeholder="enter your password" name="password"></label> <br>
+    <input type="hidden" name="command" value="login">
     <input type="submit" value="login">
     <p>
         <c:if test="${message !=null}">
@@ -19,7 +20,8 @@
     </p>
 </form>
 
-<form id="something" method="post" action="/userRegistration">
+<form id="something" method="post" action="/welcome">
+    <input type="hidden" name="command" value="registration_page">
     <input type="submit" value="registration">
 </form>
 </body>

@@ -25,11 +25,16 @@
     </c:forEach>
 
 </form>
-<form action="/dialog" method="post">
+<form action="/welcome" method="post">
     <p><textarea rows="2" cols="45" name="message" required placeholder="enter your message"></textarea></p>
     <input type="hidden" name="ownUserId" value="${finalDialog.ownUser.id}">
     <input type="hidden" name="otherUserId" value="${finalDialog.otherUser.id}">
+    <input type="hidden" name ="command" value="dialog">
     <input type="submit" value="send">
+</form>
+<form action="/welcome" method="get">
+    <input type="hidden" name ="command" value="all_dialogs_page">
+    <input type="submit" value="dialogs">
 </form>
 </body>
 </html>

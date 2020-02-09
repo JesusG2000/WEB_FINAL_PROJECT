@@ -11,12 +11,16 @@
 
 </head>
 <body>
-<form id="addVacancyForm" method="post" action="/addVacancy">
+<form id="addVacancyForm" method="post" action="/welcome">
     <label>Name: <input type="text" minlength="4"  required placeholder="enter your name" name="name"> </label> <br>
     <label>Description: <input type="text" minlength="4"  required placeholder="enter your description" name="description"></label> <br>
+    <input type="hidden" name = "command" value="add_vacancy">
     <input type="submit" value="add">
-
-
 </form>
+<form action="/welcome" method="get">
+    <input type="hidden" name="command" value="home_page">
+    <input type="submit" value="home">
+</form>
+
 </body>
 </html>

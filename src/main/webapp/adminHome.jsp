@@ -10,8 +10,9 @@
 
 <c:forEach var="seekers" items="${seekers}">
 <c:out value="${seekers}"/>
-<form action="/deleteUser" method="post">
+<form action="/welcome" method="post">
     <input type="hidden" name="id" value="${seekers.id}">
+    <input type="hidden" name = "command" value="delete_user">
     <input type="submit" value="delete">
 
 </form>
@@ -23,6 +24,7 @@
         <c:out value="${hrs}"/>
 <form action="/deleteUser" method="post">
     <input type="hidden" name="id" value="${hrs.id}">
+    <input type="hidden" name = "command" value="delete_user">
     <input type="submit" value="delete">
 </form>
 </c:forEach>
