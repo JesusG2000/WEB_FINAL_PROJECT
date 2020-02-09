@@ -27,8 +27,7 @@ public class UpdateVacancy extends PageAccess implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
-//        HttpSession session = req.getSession();
-//        BeanObserved observed = (BeanObserved) session.getAttribute("observed");
+
         try {
             User user = isLogin(req);
             if (user != null && user.getRole() == Role.HR) {

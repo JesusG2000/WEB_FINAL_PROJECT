@@ -2,6 +2,8 @@ package controller.impl;
 
 import bean.User;
 import controller.Command;
+import controller.CommandName;
+import controller.CommandProvider;
 import controller.PageAccess;
 import exception.CommandException;
 
@@ -19,7 +21,8 @@ public class MainPage extends PageAccess implements Command {
             if (user != null) {
                 session.setAttribute("user", user);
 
-                resp.sendRedirect("/profile.jsp");
+                Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
+                command.execute(req,resp);
             } else {
                 resp.sendRedirect("/login.jsp");
             }

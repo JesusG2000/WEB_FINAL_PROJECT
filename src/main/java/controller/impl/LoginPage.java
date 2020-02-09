@@ -16,9 +16,10 @@ public class LoginPage extends PageAccess implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            HttpSession session = req.getSession();
+
             User user = isLogin(req);
             if (user != null) {
+                HttpSession session = req.getSession();
                 session.setAttribute("user", user);
 
                 Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
