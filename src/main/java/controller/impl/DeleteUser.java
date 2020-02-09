@@ -23,8 +23,8 @@ public class DeleteUser extends PageAccess implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User user = isLogin(req);
-            if (user != null && user.getRole() == Role.ADMIN) {
+            //User user = isLogin(req);
+            //if (user != null && user.getRole() == Role.ADMIN) {
                 User deleteUser = new User(Integer.parseInt(req.getParameter("id")));
 
                 interviewService.deleteAllInterviewBySeeker(deleteUser);
@@ -35,10 +35,10 @@ public class DeleteUser extends PageAccess implements Command {
                 Command command = CommandProvider.getInstance().getCommand(CommandName.ADMIN_HOME_PAGE.name());
                 command.execute(req, resp);
 
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
-        } catch (ServiceException | IOException e) {
+          //  } else {
+            //    resp.sendRedirect("/login.jsp");
+           // }
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
     }

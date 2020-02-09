@@ -23,8 +23,8 @@ public class InterviewPage extends PageAccess implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User user = isLogin(req);
-            if (user != null && user.getRole() == Role.HR) {
+          //  User user = isLogin(req);
+          //  if (user != null && user.getRole() == Role.HR) {
 
                 int vacId = Integer.parseInt(req.getParameter("vacId"));
                 int seekerId = Integer.parseInt(req.getParameter("seekerId"));
@@ -41,9 +41,9 @@ public class InterviewPage extends PageAccess implements Command {
                 req.setAttribute("hr", hr);
                 req.getRequestDispatcher("/interviewPage.jsp").forward(req, resp);
 
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
+            //} else {
+           //     resp.sendRedirect("/login.jsp");
+           // }
         } catch (IOException | ServiceException | ServletException e) {
             throw new CommandException(e);
         }

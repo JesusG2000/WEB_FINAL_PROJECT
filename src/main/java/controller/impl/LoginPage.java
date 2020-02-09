@@ -15,21 +15,21 @@ import java.io.IOException;
 public class LoginPage extends PageAccess implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
-        try {
+        //try {
 
             User user = isLogin(req);
-            if (user != null) {
+           // if (user != null) {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
 
                 Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
                 command.execute(req, resp);
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+           // } else {
+           //     resp.sendRedirect("/login.jsp");
+           // }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

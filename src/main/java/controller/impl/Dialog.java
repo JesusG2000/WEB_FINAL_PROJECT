@@ -20,8 +20,8 @@ public class Dialog extends PageAccess implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
 
         try {
-            User ownUser = isLogin(req);
-            if (ownUser != null) {
+           // User ownUser = isLogin(req);
+           // if (ownUser != null) {
                 int ownUserId = Integer.parseInt(req.getParameter("ownUserId"));
                 int otherUserId = Integer.parseInt(req.getParameter("otherUserId"));
                 String content = req.getParameter("message");
@@ -30,7 +30,7 @@ public class Dialog extends PageAccess implements Command {
                 messageService.create(message);
                 resp.sendRedirect("/welcome?otherUserId=" + otherUserId + "&command=dialog_page");
 
-            }
+           // }
         } catch (ServiceException | IOException e) {
             throw new CommandException(e);
         }

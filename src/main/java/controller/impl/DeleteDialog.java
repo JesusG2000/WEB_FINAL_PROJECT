@@ -23,17 +23,17 @@ public class DeleteDialog extends PageAccess implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
             User ownUser = isLogin(req);
-            if (ownUser != null) {
+           // if (ownUser != null) {
 
                 String name = req.getParameter("name");
                 User otherUser = userService.getUserByName(name);
                 messageService.deleteAllMessageByUsers(ownUser, otherUser);
                 Command command = CommandProvider.getInstance().getCommand(CommandName.ALL_DIALOGS_PAGE.name());
                 command.execute(req, resp);
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
-        } catch (ServiceException | IOException e) {
+           // } else {
+            //    resp.sendRedirect("/login.jsp");
+          //  }
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
     }

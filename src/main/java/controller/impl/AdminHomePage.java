@@ -21,15 +21,15 @@ public class AdminHomePage extends PageAccess implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User user = isLogin(req);
-            if (user != null && user.getRole() == Role.ADMIN) {
+           // User user = isLogin(req);
+          //  if (user != null && user.getRole() == Role.ADMIN) {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/adminHome.jsp");
                 req.setAttribute("seekers", userService.getAllSeekers());
                 req.setAttribute("hrs", userService.getAllHR());
                 dispatcher.forward(req, resp);
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
+          //  } else {
+         //       resp.sendRedirect("/login.jsp");
+          //  }
         } catch (IOException | ServletException | ServiceException e) {
             throw new CommandException(e);
         }

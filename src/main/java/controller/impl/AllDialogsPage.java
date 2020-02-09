@@ -23,16 +23,16 @@ public class AllDialogsPage extends PageAccess implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
             User user = isLogin(req);
-            if (user != null) {
+            //if (user != null) {
                 List<Message> messages = messageService.getAllMessageByUser(user);
                 List<Dialog> allDialogs = messageService.createDialogs(messages, user.getId());
 
                 req.setAttribute("dialogs", allDialogs);
                 req.getRequestDispatcher("/allDialogs.jsp").forward(req, resp);
 
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
+         //   } else {
+           //     resp.sendRedirect("/login.jsp");
+          //  }
         } catch (IOException | ServiceException | ServletException e) {
             throw new CommandException(e);
         }

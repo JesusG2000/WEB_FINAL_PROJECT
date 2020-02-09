@@ -20,12 +20,12 @@ public class ProfilePage extends PageAccess implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
             User user = isLogin(req);
-            if (user != null) {
+          //  if (user != null) {
                 req.setAttribute("interview", interviewService.getAllInterviewBySeeker(user));
                 req.getRequestDispatcher("/profile.jsp").forward(req, resp);
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
+            //} else {
+           //     resp.sendRedirect("/login.jsp");
+           // }
         } catch (IOException | ServletException | ServiceException e) {
             throw new CommandException(e);
         }

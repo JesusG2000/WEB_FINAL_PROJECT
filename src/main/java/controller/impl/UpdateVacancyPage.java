@@ -24,18 +24,18 @@ public class UpdateVacancyPage extends PageAccess implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User user = isLogin(req);
-            if (user != null && user.getRole() == Role.HR) {
+           // User user = isLogin(req);
+          //  if (user != null && user.getRole() == Role.HR) {
 
                 Vacancy vacancy = vacancyService.readById(Integer.parseInt(req.getParameter("id")));
                 req.setAttribute("vacancy", vacancy);
                 req.setAttribute("seekers", userService.getAllByVacancy(vacancy));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/vacancyInfo.jsp");
                 dispatcher.forward(req, resp);
-            } else {
-                resp.sendRedirect("/login.jsp");
+        //    } else {
+           //     resp.sendRedirect("/login.jsp");
 
-            }
+          //  }
         } catch (IOException | ServiceException | ServletException e) {
             throw new CommandException(e);
         }

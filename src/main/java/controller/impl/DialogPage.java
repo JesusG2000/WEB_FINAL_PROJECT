@@ -27,7 +27,7 @@ public class DialogPage extends PageAccess implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
             User ownUser = isLogin(req);
-            if (ownUser != null) {
+           // if (ownUser != null) {
 
                 int otherUserId = Integer.parseInt(req.getParameter("otherUserId"));
                 User otherUser = userService.readById(otherUserId);
@@ -39,9 +39,9 @@ public class DialogPage extends PageAccess implements Command {
 
                 req.getRequestDispatcher("/dialog.jsp").forward(req, resp);
 
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
+            //} else {
+            //    resp.sendRedirect("/login.jsp");
+           // }
         } catch (ServletException | IOException | ServiceException e) {
             throw new CommandException(e);
         }

@@ -30,7 +30,7 @@ public class AddVacancy extends PageAccess implements Command {
 
         try {
             User user = isLogin(req);
-            if (user != null && user.getRole() == Role.HR) {
+           // if (user != null && user.getRole() == Role.HR) {
                 String name = req.getParameter("name");
                 String description = req.getParameter("description");
                 Vacancy vacancy = new Vacancy(name, description);
@@ -39,10 +39,10 @@ public class AddVacancy extends PageAccess implements Command {
 
                 Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
                 command.execute(req, resp);
-            }else{
-                resp.sendRedirect("/login.jsp");
-            }
-        } catch (ServiceException | IOException e) {
+           // }else{
+           //     resp.sendRedirect("/login.jsp");
+           // }
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
 

@@ -22,14 +22,14 @@ public class HomePage extends PageAccess implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
             User user = isLogin(req);
-            if (user != null) {
+            //if (user != null) {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/home.jsp");
                 req.setAttribute("currentUser", user);
                 req.setAttribute("vacancies", vacancyService.getAllVacancy());
                 dispatcher.forward(req, resp);
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
+           // } else {
+            //    resp.sendRedirect("/login.jsp");
+           // }
         } catch (IOException | ServletException | ServiceException e) {
             throw new CompletionException(e);
         }

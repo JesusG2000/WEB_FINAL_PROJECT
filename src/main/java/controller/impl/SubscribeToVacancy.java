@@ -22,8 +22,8 @@ public class SubscribeToVacancy extends PageAccess implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User user = isLogin(req);
-            if (user != null && user.getRole() == Role.SEEKER) {
+            //User user = isLogin(req);
+           // if (user != null && user.getRole() == Role.SEEKER) {
 
                 int vacId = Integer.parseInt(req.getParameter("vacId"));
                 int userId = Integer.parseInt(req.getParameter("userId"));
@@ -31,10 +31,10 @@ public class SubscribeToVacancy extends PageAccess implements Command {
                 vacRespondedService.create(new VacResponded(userId, vacId));
                 Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
                 command.execute(req, resp);
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
-        } catch (IOException | ServiceException e) {
+          //  } else {
+           //     resp.sendRedirect("/login.jsp");
+           // }
+        } catch (ServiceException e) {
            throw new CommandException(e);
         }
     }

@@ -29,7 +29,7 @@ public class DeleteVacancy extends PageAccess implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
             User user = isLogin(req);
-            if (user != null && user.getRole() == Role.HR) {
+           // if (user != null && user.getRole() == Role.HR) {
                 int vacancyId = Integer.parseInt(req.getParameter("id"));
 
                 notifySeekers(user ,vacancyId);
@@ -37,10 +37,10 @@ public class DeleteVacancy extends PageAccess implements Command {
 
                 Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
                 command.execute(req,resp);
-            } else {
-                resp.sendRedirect("/login.jsp");
-            }
-        } catch (IOException | ServiceException e) {
+          //  } else {
+           //    resp.sendRedirect("/login.jsp");
+            //}
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
     }
