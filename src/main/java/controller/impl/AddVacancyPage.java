@@ -1,32 +1,25 @@
 package controller.impl;
 
-import bean.Role;
-import bean.User;
 import controller.Command;
-import controller.PageAccess;
 import exception.CommandException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AddVacancyPage extends PageAccess implements Command {
+public class AddVacancyPage implements Command {
+    private static Logger log = Logger.getLogger(AddVacancyPage.class);
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            //User user = isLogin(req);
-           // if (user != null && user.getRole() == Role.HR) {
-                resp.sendRedirect("/addVacancy.jsp");
-          //  } else {
-            //    resp.sendRedirect("/login.jsp");
-           // }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Override
-    public User isLogin(HttpServletRequest request) {
-        return checkLogin(request);
+            resp.sendRedirect("/addVacancy.jsp");
+
+        } catch (IOException e) {
+            log.error(e);
+            throw new CommandException(e);
+        }
     }
 }

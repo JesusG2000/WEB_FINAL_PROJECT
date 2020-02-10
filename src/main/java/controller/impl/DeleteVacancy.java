@@ -1,15 +1,14 @@
 package controller.impl;
 
 import bean.Message;
-import bean.Role;
 import bean.User;
 import bean.Vacancy;
 import controller.Command;
 import controller.CommandName;
 import controller.CommandProvider;
-import controller.PageAccess;
 import exception.CommandException;
 import exception.ServiceException;
+import org.apache.log4j.Logger;
 import service.MessageService;
 import service.ServiceFactory;
 import service.UserService;
@@ -17,31 +16,29 @@ import service.VacancyService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
-public class DeleteVacancy extends PageAccess implements Command {
-   private VacancyService vacancyService = ServiceFactory.getInstance().getVacancyService();
-   private UserService userService = ServiceFactory.getInstance().getUserService();
-   private MessageService messageService = ServiceFactory.getInstance().getMessageService();
+public class DeleteVacancy implements Command {
+    private static Logger log = Logger.getLogger(DeleteVacancy.class);
+    private VacancyService vacancyService = ServiceFactory.getInstance().getVacancyService();
+    private UserService userService = ServiceFactory.getInstance().getUserService();
+    private MessageService messageService = ServiceFactory.getInstance().getMessageService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User user = isLogin(req);
-           // if (user != null && user.getRole() == Role.HR) {
-                int vacancyId = Integer.parseInt(req.getParameter("id"));
+            User user = (User) req.getAttribute("user");
 
-                notifySeekers(user ,vacancyId);
-                vacancyService.deleteById(vacancyId);
+            int vacancyId = Integer.parseInt(req.getParameter("id"));
 
-                Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
-                command.execute(req,resp);
-          //  } else {
-           //    resp.sendRedirect("/login.jsp");
-            //}
+            notifySeekers(user, vacancyId);
+            vacancyService.deleteById(vacancyId);
+
+            Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
+
         } catch (ServiceException e) {
-            e.printStackTrace();
+            log.error(e);
+            throw new CommandException(e);
         }
     }
 
@@ -57,8 +54,5 @@ public class DeleteVacancy extends PageAccess implements Command {
         }
     }
 
-    @Override
-    public User isLogin(HttpServletRequest request) {
-        return checkLogin(request);
-    }
+
 }

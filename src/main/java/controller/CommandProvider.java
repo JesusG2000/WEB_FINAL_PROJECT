@@ -41,6 +41,7 @@ public final class CommandProvider {
         commandMap.put(CommandName.ADD_DIALOG, new AddDialog());
         commandMap.put(CommandName.DELETE_DIALOG, new DeleteDialog());
         commandMap.put(CommandName.DIALOG, new Dialog());
+        commandMap.put(CommandName.ERROR, new ErrorPage());
 
 
 

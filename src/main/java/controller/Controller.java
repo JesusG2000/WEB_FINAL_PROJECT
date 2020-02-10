@@ -1,6 +1,7 @@
 package controller;
 
 import exception.CommandException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,8 @@ import java.io.IOException;
 
 @WebServlet("/welcome")
 public class Controller extends HttpServlet {
-    private final CommandProvider commandProvider = new CommandProvider();
+    private static Logger log = Logger.getLogger(Controller.class);
+    private final CommandProvider commandProvider = CommandProvider.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -21,6 +23,7 @@ public class Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         complete(req, resp);
+
     }
 
     private void complete(HttpServletRequest req, HttpServletResponse resp) {
@@ -33,9 +36,14 @@ public class Controller extends HttpServlet {
         Command command = commandProvider.getCommand(commandName);
 
         try {
-            command.execute(req,resp);
-        } catch (CommandException e) {
-            System.out.println(e.getMessage());
+            command.execute(req, resp);
+        } catch (NullPointerException | CommandException e) {
+            log.error(e);
+            try {
+                resp.sendRedirect("/error.jsp");
+            } catch (IOException ignored) {
+
+            }
         }
 
     }

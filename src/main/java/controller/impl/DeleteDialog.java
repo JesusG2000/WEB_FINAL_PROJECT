@@ -4,42 +4,37 @@ import bean.User;
 import controller.Command;
 import controller.CommandName;
 import controller.CommandProvider;
-import controller.PageAccess;
 import exception.CommandException;
 import exception.ServiceException;
+import org.apache.log4j.Logger;
 import service.MessageService;
 import service.ServiceFactory;
 import service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-public class DeleteDialog extends PageAccess implements Command {
+public class DeleteDialog implements Command {
+    private static Logger log = Logger.getLogger(DeleteDialog.class);
     private MessageService messageService = ServiceFactory.getInstance().getMessageService();
     private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User ownUser = isLogin(req);
-           // if (ownUser != null) {
+            User ownUser = (User) req.getAttribute("user");
 
-                String name = req.getParameter("name");
-                User otherUser = userService.getUserByName(name);
-                messageService.deleteAllMessageByUsers(ownUser, otherUser);
-                Command command = CommandProvider.getInstance().getCommand(CommandName.ALL_DIALOGS_PAGE.name());
-                command.execute(req, resp);
-           // } else {
-            //    resp.sendRedirect("/login.jsp");
-          //  }
+
+            String name = req.getParameter("name");
+            User otherUser = userService.getUserByName(name);
+            messageService.deleteAllMessageByUsers(ownUser, otherUser);
+            Command command = CommandProvider.getInstance().getCommand(CommandName.ALL_DIALOGS_PAGE.name());
+            command.execute(req, resp);
+
         } catch (ServiceException e) {
-            e.printStackTrace();
+            log.error(e);
+            throw new CommandException(e);
         }
     }
 
-    @Override
-    public User isLogin(HttpServletRequest request) {
-        return checkLogin(request);
-    }
 }

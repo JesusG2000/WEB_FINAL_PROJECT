@@ -4,36 +4,33 @@ import bean.User;
 import controller.Command;
 import controller.CommandName;
 import controller.CommandProvider;
-import controller.PageAccess;
 import exception.CommandException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class MainPage extends PageAccess implements Command {
+public class MainPage implements Command {
+    private static Logger log = Logger.getLogger(MainPage.class);
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
             HttpSession session = req.getSession();
-            User user = isLogin(req);
+            User user = (User) req.getAttribute("user");
             if (user != null) {
                 session.setAttribute("user", user);
 
                 Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
-                command.execute(req,resp);
+                command.execute(req, resp);
             } else {
                 resp.sendRedirect("/login.jsp");
             }
         } catch (IOException e) {
-            throw new CommandException("Redirect to page error" , e);
+            log.error(e);
+            throw new CommandException("Redirect to page error", e);
         }
-    }
-
-
-    @Override
-    public User isLogin(HttpServletRequest request) {
-        return checkLogin(request);
     }
 }

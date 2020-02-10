@@ -12,7 +12,6 @@ public enum CommandName {
     HOME_PAGE,
     ADMIN_HOME_PAGE,
     LOGOUT,
-    PROFILE,
     PROFILE_PAGE,
 
     UPDATE_VACANCY_PAGE,
@@ -30,6 +29,7 @@ public enum CommandName {
     DIALOG_PAGE,
     ADD_DIALOG,
     DELETE_DIALOG,
-    DIALOG
+    DIALOG,
+    ERROR
 
 }

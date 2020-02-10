@@ -6,6 +6,7 @@ import controller.CommandName;
 import controller.CommandProvider;
 import exception.CommandException;
 import exception.ServiceException;
+import org.apache.log4j.Logger;
 import service.ServiceFactory;
 import service.UserService;
 
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Login implements Command {
+    private static Logger log = Logger.getLogger(Login.class);
     private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
@@ -33,7 +35,7 @@ public class Login implements Command {
                 session.setAttribute("user", user);
 
                 Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
-                command.execute(req,resp);
+                command.execute(req, resp);
 
             } else {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
@@ -41,6 +43,7 @@ public class Login implements Command {
                 dispatcher.forward(req, resp);
             }
         } catch (IOException | ServletException | ServiceException e) {
+            log.error(e);
             throw new CommandException("Error in redirect to page", e);
         }
     }

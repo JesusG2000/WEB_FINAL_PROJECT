@@ -4,6 +4,7 @@ import bean.User;
 import controller.Command;
 import exception.CommandException;
 import exception.ServiceException;
+import org.apache.log4j.Logger;
 import service.ServiceFactory;
 import service.UserService;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 public class Registration implements Command {
     private UserService userService = ServiceFactory.getInstance().getUserService();
+    private static Logger log = Logger.getLogger(Registration.class);
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
@@ -32,6 +34,7 @@ public class Registration implements Command {
                 dispatcher.forward(req, resp);
             }
         } catch (ServletException | IOException | ServiceException e) {
+            log.error(e);
            throw new CommandException(e);
         }
 

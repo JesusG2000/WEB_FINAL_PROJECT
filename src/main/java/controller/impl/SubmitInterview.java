@@ -1,11 +1,13 @@
 package controller.impl;
 
 import bean.Interview;
+import bean.User;
 import controller.Command;
 import controller.CommandName;
 import controller.CommandProvider;
 import exception.CommandException;
 import exception.ServiceException;
+import org.apache.log4j.Logger;
 import service.InterviewService;
 import service.ServiceFactory;
 
@@ -15,7 +17,7 @@ import java.sql.Date;
 
 public class SubmitInterview implements Command {
     private InterviewService interviewService = ServiceFactory.getInstance().getInterviewService();
-
+    private static Logger log = Logger.getLogger(SubmitInterview.class);
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
@@ -33,6 +35,7 @@ public class SubmitInterview implements Command {
             Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
             command.execute(req, resp);
         } catch (ServiceException e) {
+            log.error(e);
             throw new CommandException(e);
         }
     }
