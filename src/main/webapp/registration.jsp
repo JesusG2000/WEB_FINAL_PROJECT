@@ -13,12 +13,13 @@
     <label>Password: <input type="password" minlength="4" maxlength="20" required placeholder="enter your password"
                             name="password"></label> <br>
     <input type="hidden" name="command" value="registration">
-    <input type="submit" value="registration">
+    <input type="submit" value="submit">
 
     <c:if test="${message !=null}">
         <c:out value="${message}"/>
     </c:if>
 </form>
 
+<a href="/login.jsp">back</a>
 </body>
 </html>

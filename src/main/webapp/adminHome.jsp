@@ -28,5 +28,10 @@
     <input type="submit" value="delete">
 </form>
 </c:forEach>
+
+<form action="/welcome" method="get">
+    <input type="hidden" name="command" value="home_page">
+    <input type="submit" value="home">
+</form>
 </body>
 </html>
