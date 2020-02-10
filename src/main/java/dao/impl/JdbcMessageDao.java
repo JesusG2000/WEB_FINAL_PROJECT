@@ -9,6 +9,7 @@ import dao.impl.util.JdbcMapper;
 import dao.pool.ConnectionPool;
 import exception.ConnectionPoolException;
 import exception.JdbcDaoException;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,16 +20,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class JdbcMessageDao implements MessageDao {
+    private static Logger log = Logger.getLogger(JdbcMessageDao.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private Connection connection;
     private JdbcMapper mapper;
 
     public JdbcMessageDao() {
-        mapper= new JdbcMapper();
+        mapper = new JdbcMapper();
         try {
             connection = connectionPool.takeConnection();
         } catch (ConnectionPoolException e) {
-
+            log.error(e);
         }
     }
 
@@ -49,6 +51,7 @@ public class JdbcMessageDao implements MessageDao {
                     list.add(mapper.messageMap(resultSet));
                 }
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -70,6 +73,7 @@ public class JdbcMessageDao implements MessageDao {
                 statement.setInt(4, ownUser.getId());
                 statement.executeUpdate();
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -135,6 +139,7 @@ public class JdbcMessageDao implements MessageDao {
                 statement.setString(3, message.getContent());
                 statement.executeUpdate();
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -163,6 +168,7 @@ public class JdbcMessageDao implements MessageDao {
                 statement.setInt(1, id);
                 statement.executeUpdate();
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);

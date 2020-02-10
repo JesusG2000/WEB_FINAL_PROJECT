@@ -7,6 +7,7 @@ import dao.impl.util.JdbcMapper;
 import dao.pool.ConnectionPool;
 import exception.ConnectionPoolException;
 import exception.JdbcDaoException;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class JdbcVacRespondedDao implements VacRespondedDao {
+    private static Logger log = Logger.getLogger(JdbcVacRespondedDao.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private Connection connection;
     private JdbcMapper mapper;
@@ -25,7 +27,7 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
         try {
             connection = connectionPool.takeConnection();
         } catch (ConnectionPoolException e) {
-
+            log.error(e);
         }
     }
 
@@ -45,6 +47,7 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
                     vacRespondedList.add(mapper.vacRespondedMap(resultSet));
                 }
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -76,6 +79,7 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
                 resultSet.last();
                 return resultSet.getRow() != 0;
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -96,6 +100,7 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
                 statement.setInt(2, vacResponded.getVacancyId());
                 statement.executeUpdate();
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -120,6 +125,7 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
                     newVacResponded = mapper.vacRespondedMap(resultSet);
                 }
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -135,7 +141,7 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
 
     @Override
     public void deleteById(int id) throws JdbcDaoException {
-        if(connection!=null) {
+        if (connection != null) {
             String query = "DELETE  from vac_responded where id = ?";
             PreparedStatement statement = null;
             try {
@@ -143,6 +149,7 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
                 statement.setInt(1, id);
                 statement.executeUpdate();
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);

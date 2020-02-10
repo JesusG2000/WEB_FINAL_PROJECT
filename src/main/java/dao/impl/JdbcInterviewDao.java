@@ -7,6 +7,7 @@ import dao.impl.util.JdbcMapper;
 import dao.pool.ConnectionPool;
 import exception.ConnectionPoolException;
 import exception.JdbcDaoException;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class JdbcInterviewDao implements InterviewDao {
+    private static Logger log = Logger.getLogger(JdbcInterviewDao.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private Connection connection;
     private JdbcMapper mapper;
@@ -25,7 +27,7 @@ public class JdbcInterviewDao implements InterviewDao {
         try {
             connection = connectionPool.takeConnection();
         } catch (ConnectionPoolException e) {
-
+            log.error(e);
         }
     }
 
@@ -47,6 +49,7 @@ public class JdbcInterviewDao implements InterviewDao {
                     list.add(mapper.interviewMap(resultSet));
                 }
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -79,6 +82,7 @@ public class JdbcInterviewDao implements InterviewDao {
                 statement.executeUpdate();
 
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -107,6 +111,7 @@ public class JdbcInterviewDao implements InterviewDao {
                 statement.setInt(1, id);
                 statement.executeUpdate();
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);

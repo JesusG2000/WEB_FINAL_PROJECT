@@ -6,6 +6,7 @@ import dao.impl.util.JdbcMapper;
 import dao.pool.ConnectionPool;
 import exception.ConnectionPoolException;
 import exception.JdbcDaoException;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class JdbcVacancyDao implements VacancyDao {
+    private static Logger log = Logger.getLogger(JdbcVacancyDao.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private Connection connection;
     private JdbcMapper mapper;
@@ -24,7 +26,7 @@ public class JdbcVacancyDao implements VacancyDao {
         try {
             connection = connectionPool.takeConnection();
         } catch (ConnectionPoolException e) {
-
+log.error(e);
         }
     }
 
@@ -40,6 +42,7 @@ public class JdbcVacancyDao implements VacancyDao {
                     vacancies.add(mapper.vacancyMap(resultSet));
                 }
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection);
@@ -61,6 +64,7 @@ public class JdbcVacancyDao implements VacancyDao {
                 statement.executeUpdate();
 
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -84,6 +88,7 @@ public class JdbcVacancyDao implements VacancyDao {
                     newVacancy = mapper.vacancyMap(resultSet);
                 }
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -105,6 +110,7 @@ public class JdbcVacancyDao implements VacancyDao {
                 statement.setInt(3, vacancy.getId());
                 statement.executeUpdate();
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
@@ -123,6 +129,7 @@ public class JdbcVacancyDao implements VacancyDao {
                 statement.setInt(1, id);
                 statement.executeUpdate();
             } catch (SQLException e) {
+                log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
                 connectionPool.closeConnection(connection, statement);
