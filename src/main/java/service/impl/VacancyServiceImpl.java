@@ -5,11 +5,13 @@ import dao.DaoFactory;
 import dao.VacancyDao;
 import exception.JdbcDaoException;
 import exception.ServiceException;
+import org.apache.log4j.Logger;
 import service.VacancyService;
 
 import java.util.List;
 
 public class VacancyServiceImpl implements VacancyService {
+    private static Logger log = Logger.getLogger(VacancyServiceImpl.class);
     private VacancyDao vacancyDao = DaoFactory.getInstance().getVacancyDao();
 
     @Override
@@ -17,6 +19,7 @@ public class VacancyServiceImpl implements VacancyService {
         try {
             return vacancyDao.getAllVacancy();
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -26,6 +29,7 @@ public class VacancyServiceImpl implements VacancyService {
         try {
             vacancyDao.create(vacancy);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -35,6 +39,7 @@ public class VacancyServiceImpl implements VacancyService {
         try {
             return vacancyDao.readById(id);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -44,6 +49,7 @@ public class VacancyServiceImpl implements VacancyService {
         try {
             return vacancyDao.update(vacancy);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -53,6 +59,7 @@ public class VacancyServiceImpl implements VacancyService {
         try {
             vacancyDao.deleteById(id);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }

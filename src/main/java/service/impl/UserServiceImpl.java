@@ -6,11 +6,13 @@ import dao.DaoFactory;
 import dao.UserDao;
 import exception.JdbcDaoException;
 import exception.ServiceException;
+import org.apache.log4j.Logger;
 import service.UserService;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
+    private static Logger log = Logger.getLogger(UserServiceImpl.class);
     private UserDao userDao = DaoFactory.getInstance().getUserDao();
 
     @Override
@@ -18,6 +20,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.getUserByName(name);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -27,6 +30,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.getAllSeekers();
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -36,6 +40,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.getAllHR();
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -45,6 +50,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.getAllByVacancy(vacancy);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -54,6 +60,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.isRegistered(user);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -63,6 +70,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.isExist(user);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -72,6 +80,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDao.create(user);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -81,6 +90,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.readById(id);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -90,6 +100,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.update(user);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -99,6 +110,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDao.deleteById(id);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }

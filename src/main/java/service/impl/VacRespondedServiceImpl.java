@@ -6,11 +6,13 @@ import dao.DaoFactory;
 import dao.VacRespondedDao;
 import exception.JdbcDaoException;
 import exception.ServiceException;
+import org.apache.log4j.Logger;
 import service.VacRespondedService;
 
 import java.util.List;
 
 public class VacRespondedServiceImpl implements VacRespondedService {
+    private static Logger log = Logger.getLogger(VacRespondedServiceImpl.class);
     private VacRespondedDao vacRespondedDao = DaoFactory.getInstance().getVacRespondedDao();
 
     @Override
@@ -18,6 +20,7 @@ public class VacRespondedServiceImpl implements VacRespondedService {
         try {
             return vacRespondedDao.getAllVacRespondedBySeeker(user);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -27,6 +30,7 @@ public class VacRespondedServiceImpl implements VacRespondedService {
         try {
             vacRespondedDao.deleteAllVacRespondedBySeeker(user);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -36,6 +40,7 @@ public class VacRespondedServiceImpl implements VacRespondedService {
         try {
             return vacRespondedDao.isExist(vacResponded);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -45,6 +50,7 @@ public class VacRespondedServiceImpl implements VacRespondedService {
         try {
             vacRespondedDao.create(vacResponded);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -59,6 +65,7 @@ public class VacRespondedServiceImpl implements VacRespondedService {
         try {
             return vacRespondedDao.update(vacResponded);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -68,6 +75,7 @@ public class VacRespondedServiceImpl implements VacRespondedService {
         try {
             vacRespondedDao.deleteById(id);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }

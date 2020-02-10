@@ -6,17 +6,20 @@ import dao.DaoFactory;
 import dao.InterviewDao;
 import exception.JdbcDaoException;
 import exception.ServiceException;
+import org.apache.log4j.Logger;
 import service.InterviewService;
 
 import java.util.List;
 
 public class InterviewServiceImpl implements InterviewService {
+    private static Logger log = Logger.getLogger(InterviewServiceImpl.class);
     private InterviewDao interviewDao = DaoFactory.getInstance().getInterviewDao();
     @Override
     public List<Interview> getAllInterviewBySeeker(User user) throws ServiceException {
         try {
             return interviewDao.getAllInterviewBySeeker(user);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -26,6 +29,7 @@ public class InterviewServiceImpl implements InterviewService {
         try {
             interviewDao.deleteAllInterviewBySeeker(user);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -35,6 +39,7 @@ public class InterviewServiceImpl implements InterviewService {
         try {
             interviewDao.create(interview);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -44,6 +49,7 @@ public class InterviewServiceImpl implements InterviewService {
         try {
             return interviewDao.readById(id);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -53,6 +59,7 @@ public class InterviewServiceImpl implements InterviewService {
         try {
             return interviewDao.update(interview);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
@@ -62,6 +69,7 @@ public class InterviewServiceImpl implements InterviewService {
         try {
             interviewDao.deleteById(id);
         } catch (JdbcDaoException e) {
+            log.error(e);
             throw new ServiceException(e);
         }
     }
