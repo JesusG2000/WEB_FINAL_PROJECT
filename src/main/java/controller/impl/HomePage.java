@@ -22,7 +22,7 @@ public class HomePage implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User user = (User) req.getAttribute("user");
+            User user = (User) (User) req.getSession().getAttribute("user");
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("/home.jsp");
             req.setAttribute("currentUser", user);

@@ -24,7 +24,7 @@ public class AddDialog implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
 
-            User ownUser = (User) req.getAttribute("user");
+            User ownUser = (User) (User) req.getSession().getAttribute("user");
 
             String name = req.getParameter("name");
             User otherUser = userService.getUserByName(name);

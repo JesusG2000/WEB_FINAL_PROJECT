@@ -22,7 +22,7 @@ public class DeleteDialog implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User ownUser = (User) req.getAttribute("user");
+            User ownUser = (User) (User) req.getSession().getAttribute("user");
 
 
             String name = req.getParameter("name");

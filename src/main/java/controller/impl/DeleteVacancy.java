@@ -27,7 +27,7 @@ public class DeleteVacancy implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User user = (User) req.getAttribute("user");
+            User user = (User) (User) req.getSession().getAttribute("user");
 
             int vacancyId = Integer.parseInt(req.getParameter("id"));
 
@@ -35,6 +35,7 @@ public class DeleteVacancy implements Command {
             vacancyService.deleteById(vacancyId);
 
             Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
+            command.execute(req,resp);
 
         } catch (ServiceException e) {
             log.error(e);

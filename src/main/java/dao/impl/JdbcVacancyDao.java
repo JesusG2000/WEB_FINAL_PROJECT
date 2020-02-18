@@ -18,122 +18,123 @@ import java.util.List;
 public class JdbcVacancyDao implements VacancyDao {
     private static Logger log = Logger.getLogger(JdbcVacancyDao.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
-    private Connection connection;
-    private JdbcMapper mapper;
 
-    public JdbcVacancyDao() {
-        mapper = new JdbcMapper();
-        try {
-            connection = connectionPool.takeConnection();
-        } catch (ConnectionPoolException e) {
-log.error(e);
-        }
-    }
+    private JdbcMapper mapper = new JdbcMapper();
+
 
     @Override
     public List<Vacancy> getAllVacancy() throws JdbcDaoException {
         List<Vacancy> vacancies = null;
-        if (connection != null) {
+
+
+        String query = "select * from vacancy";
+        Connection connection = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionPool.takeConnection();
             vacancies = new LinkedList<>();
-            String query = "select * from vacancy";
-            try {
-                ResultSet resultSet = connection.createStatement().executeQuery(query);
-                while (resultSet.next()) {
-                    vacancies.add(mapper.vacancyMap(resultSet));
-                }
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection);
+            resultSet = connection.createStatement().executeQuery(query);
+            while (resultSet.next()) {
+                vacancies.add(mapper.vacancyMap(resultSet));
             }
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, resultSet);
         }
         return vacancies;
     }
 
     @Override
     public void create(Vacancy vacancy) throws JdbcDaoException {
-        if (connection != null) {
-            String sqlInsertUser = "INSERT INTO vacancy (name, description) values (?, ?)";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(sqlInsertUser);
 
-                statement.setString(1, vacancy.getName());
-                statement.setString(2, vacancy.getDescription());
-                statement.executeUpdate();
+        String sqlInsertUser = "INSERT INTO vacancy (name, description) values (?, ?)";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(sqlInsertUser);
 
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
-            }
+            statement.setString(1, vacancy.getName());
+            statement.setString(2, vacancy.getDescription());
+            statement.executeUpdate();
+
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement);
         }
-
     }
 
     @Override
     public Vacancy readById(int id) throws JdbcDaoException {
         Vacancy newVacancy = null;
-        if (connection != null) {
-            String sqlInsertUser = "SELECT * from vacancy where id = ?";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(sqlInsertUser);
-                statement.setString(1, String.valueOf(id));
 
-                ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    newVacancy = mapper.vacancyMap(resultSet);
-                }
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
+        String sqlInsertUser = "SELECT * from vacancy where id = ?";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(sqlInsertUser);
+            statement.setString(1, String.valueOf(id));
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                newVacancy = mapper.vacancyMap(resultSet);
             }
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement);
         }
         return newVacancy;
     }
 
     @Override
     public Vacancy update(Vacancy vacancy) throws JdbcDaoException {
-        if (connection != null) {
-            String sqlInsertUser = "UPDATE vacancy set name = ? , description = ? where id = ? ";
-            PreparedStatement statement = null;
 
-            try {
-                statement = connection.prepareStatement(sqlInsertUser);
-                statement.setString(1, vacancy.getName());
-                statement.setString(2, vacancy.getDescription());
-                statement.setInt(3, vacancy.getId());
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
-            }
+        String sqlInsertUser = "UPDATE vacancy set name = ? , description = ? where id = ? ";
+        PreparedStatement statement = null;
+
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(sqlInsertUser);
+            statement.setString(1, vacancy.getName());
+            statement.setString(2, vacancy.getDescription());
+            statement.setInt(3, vacancy.getId());
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement);
         }
+
         return vacancy;
     }
 
     @Override
     public void deleteById(int id) throws JdbcDaoException {
-        if (connection != null) {
-            String sqlInsertUser = "DELETE  from vacancy where id = ?";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(sqlInsertUser);
-                statement.setInt(1, id);
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
-            }
+
+        String sqlInsertUser = "DELETE  from vacancy where id = ?";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(sqlInsertUser);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement);
         }
+
     }
 }

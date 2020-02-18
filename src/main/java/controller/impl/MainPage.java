@@ -19,9 +19,8 @@ public class MainPage implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
             HttpSession session = req.getSession();
-            User user = (User) req.getAttribute("user");
+            User user = (User)  req.getSession().getAttribute("user");
             if (user != null) {
-                session.setAttribute("user", user);
 
                 Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
                 command.execute(req, resp);

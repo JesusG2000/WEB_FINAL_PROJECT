@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Registration implements Command {
-    private UserService userService = ServiceFactory.getInstance().getUserService();
     private static Logger log = Logger.getLogger(Registration.class);
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
@@ -24,6 +24,12 @@ public class Registration implements Command {
         String passwordGET = req.getParameter("password");
         User user = new User(nameGET, passwordGET);
         try {
+            if ((nameGET.length() < 4 && passwordGET.length() < 4) || (nameGET.length()>16 && passwordGET.length()>16)) {
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/registration.jsp");
+                req.setAttribute("message", "Length might be from 4 to 16");
+
+                dispatcher.forward(req, resp);
+            }
             if (!userService.isRegistered(user)) {
                 userService.create(user);
                 resp.sendRedirect("/login.jsp");
@@ -35,7 +41,7 @@ public class Registration implements Command {
             }
         } catch (ServletException | IOException | ServiceException e) {
             log.error(e);
-           throw new CommandException(e);
+            throw new CommandException(e);
         }
 
     }

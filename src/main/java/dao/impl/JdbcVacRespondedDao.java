@@ -19,39 +19,35 @@ import java.util.List;
 public class JdbcVacRespondedDao implements VacRespondedDao {
     private static Logger log = Logger.getLogger(JdbcVacRespondedDao.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
-    private Connection connection;
-    private JdbcMapper mapper;
 
-    public JdbcVacRespondedDao() {
-        mapper = new JdbcMapper();
-        try {
-            connection = connectionPool.takeConnection();
-        } catch (ConnectionPoolException e) {
-            log.error(e);
-        }
-    }
+    private JdbcMapper mapper = new JdbcMapper();
+
 
     @Override
     public List<VacResponded> getAllVacRespondedBySeeker(User user) throws JdbcDaoException {
         List<VacResponded> vacRespondedList = null;
-        if (connection != null) {
-            vacRespondedList = new LinkedList<>();
-            String query = "select * from vac_responded where user_id = ?";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, user.getId());
 
-                ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    vacRespondedList.add(mapper.vacRespondedMap(resultSet));
-                }
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
+
+        String query = "select * from vac_responded where user_id = ?";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        try {
+            vacRespondedList = new LinkedList<>();
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, user.getId());
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                vacRespondedList.add(mapper.vacRespondedMap(resultSet));
             }
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement, resultSet);
+
         }
         return vacRespondedList;
     }
@@ -66,40 +62,43 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
 
     @Override
     public boolean isExist(VacResponded vacResponded) throws JdbcDaoException {
-        if (connection != null) {
-            String query = "select * from vac_responded where user_id = ? and vacancy_id = ?";
-            PreparedStatement statement = null;
 
-            try {
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, vacResponded.getUserId());
-                statement.setInt(2, vacResponded.getVacancyId());
+        String query = "select * from vac_responded where user_id = ? and vacancy_id = ?";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, vacResponded.getUserId());
+            statement.setInt(2, vacResponded.getVacancyId());
 
-                ResultSet resultSet = statement.executeQuery();
-                resultSet.last();
-                return resultSet.getRow() != 0;
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
-            }
+            resultSet = statement.executeQuery();
+            resultSet.last();
+            return resultSet.getRow() != 0;
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement, resultSet);
         }
-        return false;
+
     }
 
     @Override
     public void create(VacResponded vacResponded) throws JdbcDaoException {
 
-        if (!isExist(vacResponded) && connection != null) {
+        if (!isExist(vacResponded)) {
             String query = "insert into vac_responded (user_id,vacancy_id) values (? , ?)";
             PreparedStatement statement = null;
+            Connection connection = null;
             try {
+                connection = connectionPool.takeConnection();
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, vacResponded.getUserId());
                 statement.setInt(2, vacResponded.getVacancyId());
                 statement.executeUpdate();
-            } catch (SQLException e) {
+            } catch (SQLException | ConnectionPoolException e) {
                 log.error(e);
                 throw new JdbcDaoException("Prepared statement error", e);
             } finally {
@@ -112,25 +111,28 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
     @Override
     public VacResponded readById(int id) throws JdbcDaoException {
         VacResponded newVacResponded = null;
-        if (connection != null) {
-            String query = "select * from vac_responded where vacancy_id = ? and user_id = ? ";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, id);
-                statement.setInt(2, id);
 
-                ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    newVacResponded = mapper.vacRespondedMap(resultSet);
-                }
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
+        String query = "select * from vac_responded where vacancy_id = ? and user_id = ? ";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.setInt(2, id);
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                newVacResponded = mapper.vacRespondedMap(resultSet);
             }
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement, resultSet);
         }
+
         return newVacResponded;
     }
 
@@ -141,19 +143,21 @@ public class JdbcVacRespondedDao implements VacRespondedDao {
 
     @Override
     public void deleteById(int id) throws JdbcDaoException {
-        if (connection != null) {
-            String query = "DELETE  from vac_responded where id = ?";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, id);
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
-            }
+
+        String query = "DELETE  from vac_responded where id = ?";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement);
         }
     }
+
 }

@@ -37,13 +37,8 @@ public class Controller extends HttpServlet {
 
         try {
             command.execute(req, resp);
-        } catch (NullPointerException | CommandException e) {
+        } catch ( CommandException e) {
             log.error(e);
-            try {
-                resp.sendRedirect("/error.jsp");
-            } catch (IOException ignored) {
-
-            }
         }
 
     }

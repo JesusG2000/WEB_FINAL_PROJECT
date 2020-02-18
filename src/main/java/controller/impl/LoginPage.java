@@ -15,8 +15,8 @@ public class LoginPage implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
 
-
-        User user = (User) req.getAttribute("user");
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        User user = (User)  req.getSession().getAttribute("user");
 
         HttpSession session = req.getSession();
         session.setAttribute("user", user);

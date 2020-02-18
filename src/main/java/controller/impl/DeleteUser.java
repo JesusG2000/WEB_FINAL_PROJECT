@@ -28,8 +28,8 @@ public class DeleteUser implements Command {
             interviewService.deleteAllInterviewBySeeker(deleteUser);
             messageService.deleteAllMessageByUser(deleteUser);
             vacRespondedService.deleteAllVacRespondedBySeeker(deleteUser);
-
             userService.deleteById(deleteUser.getId());
+
             Command command = CommandProvider.getInstance().getCommand(CommandName.ADMIN_HOME_PAGE.name());
             command.execute(req, resp);
 

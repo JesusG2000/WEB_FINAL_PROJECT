@@ -22,63 +22,60 @@ import java.util.List;
 public class JdbcMessageDao implements MessageDao {
     private static Logger log = Logger.getLogger(JdbcMessageDao.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
-    private Connection connection;
-    private JdbcMapper mapper;
 
-    public JdbcMessageDao() {
-        mapper = new JdbcMapper();
-        try {
-            connection = connectionPool.takeConnection();
-        } catch (ConnectionPoolException e) {
-            log.error(e);
-        }
-    }
+    private JdbcMapper mapper = new JdbcMapper();
+
 
     @Override
     public List<Message> getAllMessageByUser(User user) throws JdbcDaoException {
         List<Message> list = null;
-        if (connection != null) {
-            list = new LinkedList<>();
-            String query = "select * from message where getter_id = ? or sender_id = ?";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, user.getId());
-                statement.setInt(2, user.getId());
 
-                ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    list.add(mapper.messageMap(resultSet));
-                }
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
+
+        String query = "select * from message where getter_id = ? or sender_id = ?";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionPool.takeConnection();
+            list = new LinkedList<>();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, user.getId());
+            statement.setInt(2, user.getId());
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                list.add(mapper.messageMap(resultSet));
             }
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement, resultSet);
         }
         return list;
     }
 
     @Override
     public void deleteAllMessageByUsers(User ownUser, User otherUser) throws JdbcDaoException {
-        if (connection != null) {
-            String query = "delete from message where (getter_id = ? and sender_id = ?) or(getter_id = ? and sender_id = ?)";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, ownUser.getId());
-                statement.setInt(2, otherUser.getId());
-                statement.setInt(3, otherUser.getId());
-                statement.setInt(4, ownUser.getId());
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
-            }
+
+        String query = "delete from message where (getter_id = ? and sender_id = ?) or(getter_id = ? and sender_id = ?)";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, ownUser.getId());
+            statement.setInt(2, otherUser.getId());
+            statement.setInt(3, otherUser.getId());
+            statement.setInt(4, ownUser.getId());
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement);
         }
+
     }
 
     @Override
@@ -128,22 +125,23 @@ public class JdbcMessageDao implements MessageDao {
 
     @Override
     public void create(Message message) throws JdbcDaoException {
-        if (connection != null) {
-            String query = "Insert  into message (sender_id, getter_id, content) values (?,?,?)";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(query);
 
-                statement.setInt(1, message.getSenderId());
-                statement.setInt(2, message.getGetterId());
-                statement.setString(3, message.getContent());
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
-            }
+        String query = "Insert  into message (sender_id, getter_id, content) values (?,?,?)";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(query);
+
+            statement.setInt(1, message.getSenderId());
+            statement.setInt(2, message.getGetterId());
+            statement.setString(3, message.getContent());
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement);
         }
     }
 
@@ -159,20 +157,22 @@ public class JdbcMessageDao implements MessageDao {
 
     @Override
     public void deleteById(int id) throws JdbcDaoException {
-        if (connection != null) {
-            String query = "delete from message where id = ?";
-            PreparedStatement statement = null;
-            try {
-                statement = connection.prepareStatement(query);
 
-                statement.setInt(1, id);
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                log.error(e);
-                throw new JdbcDaoException("Prepared statement error", e);
-            } finally {
-                connectionPool.closeConnection(connection, statement);
-            }
+        String query = "delete from message where id = ?";
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(query);
+
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement);
         }
+
     }
 }

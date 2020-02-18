@@ -24,7 +24,7 @@ public class AllDialogsPage implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
 
-            User user = (User) req.getAttribute("user");
+            User user = (User) (User) req.getSession().getAttribute("user");
 
             List<Message> messages = messageService.getAllMessageByUser(user);
             List<Dialog> allDialogs = messageService.createDialogs(messages, user.getId());

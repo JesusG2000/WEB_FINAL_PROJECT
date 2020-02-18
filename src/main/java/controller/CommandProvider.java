@@ -4,6 +4,8 @@ package controller;
 import controller.impl.*;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public final class CommandProvider {
@@ -12,7 +14,7 @@ public final class CommandProvider {
 
     CommandProvider() {
         commandMap.put(CommandName.LOGIN, new Login());
-        commandMap.put(CommandName.LOGIN_PAGE, new LoginPage());
+        //commandMap.put(CommandName.LOGIN_PAGE, new LoginPage());
         commandMap.put(CommandName.REGISTRATION, new Registration());
         commandMap.put(CommandName.REGISTRATION_PAGE, new RegistrationPage());
         commandMap.put(CommandName.MAIN_PAGE, new MainPage());
@@ -41,7 +43,8 @@ public final class CommandProvider {
         commandMap.put(CommandName.ADD_DIALOG, new AddDialog());
         commandMap.put(CommandName.DELETE_DIALOG, new DeleteDialog());
         commandMap.put(CommandName.DIALOG, new Dialog());
-        commandMap.put(CommandName.ERROR, new ErrorPage());
+        commandMap.put(CommandName.CHANGE_LANGUAGE , new ChangeLanguage());
+       // commandMap.put(CommandName.ERROR, new ErrorPage());
 
 
 

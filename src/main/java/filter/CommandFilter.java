@@ -3,6 +3,9 @@ package filter;
 import bean.Role;
 import bean.User;
 import controller.CommandName;
+import exception.ServiceException;
+import service.ServiceFactory;
+import service.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +20,7 @@ public class CommandFilter implements Filter {
     private Set<String> hrCommands = new HashSet<>();
     private Set<String> adminCommands = new HashSet<>();
     private Set<String> defaultCommands = new HashSet<>();
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -30,6 +34,7 @@ public class CommandFilter implements Filter {
         seekerCommands.add(CommandName.PROFILE_PAGE.name());
         seekerCommands.add(CommandName.LOGIN.name());
         seekerCommands.add(CommandName.LOGOUT.name());
+        seekerCommands.add(CommandName.CHANGE_LANGUAGE.name());
 
         hrCommands.add(CommandName.ADD_VACANCY_PAGE.name());
         hrCommands.add(CommandName.ADD_VACANCY.name());
@@ -47,6 +52,7 @@ public class CommandFilter implements Filter {
         hrCommands.add(CommandName.PROFILE_PAGE.name());
         hrCommands.add(CommandName.LOGOUT.name());
         hrCommands.add(CommandName.LOGIN.name());
+        hrCommands.add(CommandName.CHANGE_LANGUAGE.name());
 
         adminCommands.add(CommandName.ADMIN_HOME_PAGE.name());
         adminCommands.add(CommandName.DELETE_USER.name());
@@ -59,9 +65,10 @@ public class CommandFilter implements Filter {
         adminCommands.add(CommandName.PROFILE_PAGE.name());
         adminCommands.add(CommandName.LOGIN.name());
         adminCommands.add(CommandName.LOGOUT.name());
+        adminCommands.add(CommandName.CHANGE_LANGUAGE.name());
 
         defaultCommands.add(CommandName.REGISTRATION_PAGE.name());
-        defaultCommands.add(CommandName.LOGIN_PAGE.name());
+       // defaultCommands.add(CommandName.LOGIN_PAGE.name());
         defaultCommands.add(CommandName.LOGOUT.name());
         defaultCommands.add(CommandName.MAIN_PAGE.name());
         defaultCommands.add(CommandName.REGISTRATION.name());
@@ -86,26 +93,34 @@ public class CommandFilter implements Filter {
         } else {
             commandName = commandName.toUpperCase();
         }
-//            System.out.println("___________");
-//            System.out.println(user);
-//            System.out.println(commandName);
-//            System.out.println("___________");
+
         if (user != null) {
+            try {
+                user = userService.readById(user.getId());
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
             commandName = commandName.toUpperCase();
+            if (user != null) {
 
-            if (user.getRole() == Role.SEEKER && seekerCommands.contains(commandName)) {
-                System.out.println(Role.SEEKER);
-                filterChain.doFilter(req, resp);
+                if (user.getRole() == Role.SEEKER && seekerCommands.contains(commandName)) {
+                    System.out.println(Role.SEEKER);
+                    filterChain.doFilter(req, resp);
 
-            } else if (user.getRole() == Role.HR && hrCommands.contains(commandName)) {
-                System.out.println(Role.HR);
-                filterChain.doFilter(req, resp);
+                } else if (user.getRole() == Role.HR && hrCommands.contains(commandName)) {
+                    System.out.println(Role.HR);
+                    filterChain.doFilter(req, resp);
 
-            } else if (user.getRole() == Role.ADMIN && adminCommands.contains(commandName)) {
-                System.out.println(Role.ADMIN);
-                filterChain.doFilter(req, resp);
+                } else if (user.getRole() == Role.ADMIN && adminCommands.contains(commandName)) {
+                    System.out.println(Role.ADMIN);
+                    filterChain.doFilter(req, resp);
+
+                } else {
+                    resp.sendRedirect("/welcome");
+                }
 
             } else {
+                session.removeAttribute("user");
                 resp.sendRedirect("/welcome");
             }
 

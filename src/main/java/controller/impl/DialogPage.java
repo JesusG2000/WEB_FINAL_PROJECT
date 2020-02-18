@@ -27,7 +27,7 @@ public class DialogPage implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User ownUser = (User) req.getAttribute("user");
+            User ownUser = (User) (User) req.getSession().getAttribute("user");
 
 
             int otherUserId = Integer.parseInt(req.getParameter("otherUserId"));

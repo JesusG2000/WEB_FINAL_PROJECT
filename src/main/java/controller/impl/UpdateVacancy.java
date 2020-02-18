@@ -28,7 +28,7 @@ public class UpdateVacancy  implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
 
         try {
-            User user = (User) req.getAttribute("user");
+            User user = (User) (User) req.getSession().getAttribute("user");
 
                 int id = Integer.parseInt(req.getParameter("id"));
                 String name = req.getParameter("name");

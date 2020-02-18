@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Locale;
 
 public class Login implements Command {
     private static Logger log = Logger.getLogger(Login.class);
@@ -33,6 +34,9 @@ public class Login implements Command {
 
                 user = userService.getUserByName(username);
                 session.setAttribute("user", user);
+                session.setAttribute("start", 0);
+                session.setAttribute("finish", 3);
+                session.setAttribute("locale", "en");
 
                 Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
                 command.execute(req, resp);
