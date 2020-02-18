@@ -1,0 +1,60 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<c:if test="${locale eq 'en' or locale eq null}">
+    <fmt:setLocale value="en"/>
+    <fmt:setBundle basename="text"/>
+</c:if>
+
+<c:if test="${locale eq 'ru'}">
+    <fmt:setLocale value="ru"/>
+    <fmt:setBundle basename="text"/>
+</c:if>
+
+
+
+<c:forEach var="seeker" items="${seekers}">
+<c:out value="${seeker.id} - ${seeker.name}- ${seeker.role}"/>
+<form action="/welcome" method="post">
+    <input type="hidden" name="id" value="${seeker.id}">
+    <input type="hidden" name="command" value="delete_user">
+    <input type="submit" value="<fmt:message key="adminHome.delete"/>">
+
+</form>
+
+<p>
+    </c:forEach>
+
+    <c:forEach var="hr" items="${hrs}">
+        <c:out value="${hr.id} - ${hr.name} - ${hr.role}"/>
+<form action="/deleteUser" method="post">
+    <input type="hidden" name="id" value="${hr.id}">
+    <input type="hidden" name="command" value="delete_user">
+    <input type="submit" value="<fmt:message key="adminHome.delete"/>">
+</form>
+</c:forEach>
+
+<form action="/welcome" method="post">
+    <input type="hidden" name="command" value="profile_page">
+    <input type="submit" value="<fmt:message key="adminHome.home"/>">
+</form>
+</body>
+</html>
