@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.general;
 
 import controller.Command;
 import exception.CommandException;
@@ -8,18 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AddVacancyPage implements Command {
-    private static Logger log = Logger.getLogger(AddVacancyPage.class);
+public class RegistrationPage implements Command {
+    private static Logger log = Logger.getLogger(RegistrationPage.class);
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
 
-            resp.sendRedirect("/addVacancy.jsp");
+            resp.sendRedirect("/jsp/registration.jsp");
 
         } catch (IOException e) {
             log.error(e);
             throw new CommandException(e);
         }
     }
+
+
 }

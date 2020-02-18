@@ -1,11 +1,13 @@
 package controller;
 
 
-import controller.impl.*;
+import controller.impl.admin.AdminHomePage;
+import controller.impl.admin.DeleteUser;
+import controller.impl.general.*;
+import controller.impl.hr.*;
+import controller.impl.seeker.SubscribeToVacancy;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public final class CommandProvider {

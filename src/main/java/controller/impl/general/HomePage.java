@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.general;
 
 import bean.User;
 import controller.Command;
@@ -24,7 +24,7 @@ public class HomePage implements Command {
         try {
             User user = (User) (User) req.getSession().getAttribute("user");
 
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/home.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/home.jsp");
             req.setAttribute("currentUser", user);
             req.setAttribute("vacancies", vacancyService.getAllVacancy());
             dispatcher.forward(req, resp);

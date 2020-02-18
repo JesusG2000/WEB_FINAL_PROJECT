@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.general;
 
 import bean.User;
 import controller.Command;
@@ -32,9 +32,9 @@ public class Registration implements Command {
             }
             if (!userService.isRegistered(user)) {
                 userService.create(user);
-                resp.sendRedirect("/login.jsp");
+                resp.sendRedirect("/jsp/login.jsp");
             } else {
-                RequestDispatcher dispatcher = req.getRequestDispatcher("/registration.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/registration.jsp");
                 req.setAttribute("message", "This user has already registered");
 
                 dispatcher.forward(req, resp);

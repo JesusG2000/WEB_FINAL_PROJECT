@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.general;
 
 import bean.User;
 import controller.Command;
@@ -25,7 +25,7 @@ public class MainPage implements Command {
                 Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
                 command.execute(req, resp);
             } else {
-                resp.sendRedirect("/login.jsp");
+                resp.sendRedirect("/jsp/login.jsp");
             }
         } catch (IOException e) {
             log.error(e);

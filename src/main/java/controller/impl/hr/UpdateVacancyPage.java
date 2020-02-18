@@ -1,6 +1,5 @@
-package controller.impl;
+package controller.impl.hr;
 
-import bean.User;
 import bean.Vacancy;
 import controller.Command;
 import exception.CommandException;
@@ -29,7 +28,7 @@ public class UpdateVacancyPage  implements Command {
                 Vacancy vacancy = vacancyService.readById(Integer.parseInt(req.getParameter("id")));
                 req.setAttribute("vacancy", vacancy);
                 req.setAttribute("seekers", userService.getAllByVacancy(vacancy));
-                RequestDispatcher dispatcher = req.getRequestDispatcher("/vacancyInfo.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/vacancyInfo.jsp");
                 dispatcher.forward(req, resp);
 
         } catch (IOException | ServiceException | ServletException e) {

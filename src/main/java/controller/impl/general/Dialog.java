@@ -1,7 +1,8 @@
-package controller.impl;
+package controller.impl.general;
 
 import bean.Message;
 import controller.Command;
+import controller.impl.general.AddDialog;
 import exception.CommandException;
 import exception.ServiceException;
 import org.apache.log4j.Logger;

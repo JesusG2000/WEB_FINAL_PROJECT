@@ -1,6 +1,5 @@
-package controller.impl;
+package controller.impl.seeker;
 
-import bean.User;
 import bean.VacResponded;
 import controller.Command;
 import controller.CommandName;

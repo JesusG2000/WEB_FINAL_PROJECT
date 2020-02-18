@@ -1,7 +1,6 @@
-package controller.impl;
+package controller.impl.hr;
 
 import bean.Interview;
-import bean.User;
 import controller.Command;
 import controller.CommandName;
 import controller.CommandProvider;

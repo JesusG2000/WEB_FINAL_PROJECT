@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.general;
 
 import bean.User;
 import controller.Command;
@@ -15,7 +15,7 @@ public class LoginPage implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
 
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        //System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         User user = (User)  req.getSession().getAttribute("user");
 
         HttpSession session = req.getSession();

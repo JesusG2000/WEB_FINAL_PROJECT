@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.hr;
 
 import bean.User;
 import bean.Vacancy;
@@ -38,7 +38,7 @@ public class InterviewPage implements Command {
             req.setAttribute("seeker", seeker);
             req.setAttribute("vacancy", vacancy);
             req.setAttribute("hr", hr);
-            req.getRequestDispatcher("/interviewPage.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/interviewPage.jsp").forward(req, resp);
 
         } catch (IOException | ServiceException | ServletException e) {
             log.error(e);

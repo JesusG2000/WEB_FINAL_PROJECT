@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.general;
 
 import bean.User;
 import controller.Command;
@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Locale;
 
 public class Login implements Command {
     private static Logger log = Logger.getLogger(Login.class);
@@ -42,7 +41,7 @@ public class Login implements Command {
                 command.execute(req, resp);
 
             } else {
-                RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/login.jsp");
                 req.setAttribute("message", "Not correct login or password");
                 dispatcher.forward(req, resp);
             }

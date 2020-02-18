@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.admin;
 
 import controller.Command;
 import exception.CommandException;
@@ -21,7 +21,7 @@ public class AdminHomePage implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
 
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/adminHome.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/adminHome.jsp");
             req.setAttribute("seekers", userService.getAllSeekers());
             req.setAttribute("hrs", userService.getAllHR());
             dispatcher.forward(req, resp);

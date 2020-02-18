@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.general;
 
 import bean.Interview;
 import bean.User;
@@ -46,7 +46,7 @@ public class ProfilePage implements Command {
 
             req.setAttribute("interview", interviews);
             req.setAttribute("count", count);
-            req.getRequestDispatcher("/profile.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
 
         } catch (IOException | ServletException | ServiceException e) {
             log.error(e);

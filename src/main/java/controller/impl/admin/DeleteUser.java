@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.admin;
 
 import bean.User;
 import controller.Command;

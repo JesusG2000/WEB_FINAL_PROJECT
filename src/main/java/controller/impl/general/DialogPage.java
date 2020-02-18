@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.general;
 
 import bean.Message;
 import bean.User;
@@ -38,7 +38,7 @@ public class DialogPage implements Command {
             Dialog finalDialog = dialogService.getDialogByUsers(dialogs, ownUser, otherUser);
             req.setAttribute("finalDialog", finalDialog);
 
-            req.getRequestDispatcher("/dialog.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/dialog.jsp").forward(req, resp);
 
 
         } catch (ServletException | IOException | ServiceException e) {

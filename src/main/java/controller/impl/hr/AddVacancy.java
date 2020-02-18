@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.hr;
 
 import bean.Message;
 import bean.User;

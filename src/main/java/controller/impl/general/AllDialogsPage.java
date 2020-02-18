@@ -1,4 +1,4 @@
-package controller.impl;
+package controller.impl.general;
 
 import bean.Message;
 import bean.User;
@@ -30,7 +30,7 @@ public class AllDialogsPage implements Command {
             List<Dialog> allDialogs = messageService.createDialogs(messages, user.getId());
 
             req.setAttribute("dialogs", allDialogs);
-            req.getRequestDispatcher("/allDialogs.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/allDialogs.jsp").forward(req, resp);
 
 
         } catch (IOException | ServiceException | ServletException e) {
