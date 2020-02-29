@@ -2,24 +2,18 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
+<jsp:include page="header.jsp"/>
 <html>
 <head>
-    <title> Tag Example</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+    <title></title>
 </head>
 <body>
+<script>
+    var link = document.querySelector('link[rel=import]');
+    var content = link.import.querySelector('#some');
+    document.body.appendChild(content.cloneNode(true));
+</script>
+
 <c:if test="${locale eq 'en' or locale eq null}">
     <fmt:setLocale value="en"/>
     <fmt:setBundle basename="text"/>
@@ -30,50 +24,96 @@
     <fmt:setBundle basename="text"/>
 </c:if>
 
+<div class="row">
+    <div class="col-lg-5">
+        <div class=" col-lg-12 list-group">
+            <c:forEach var="vacancy" items="${vacancies}">
+                <c:if test="${currentUser.role eq 'SEEKER'}">
+                    <form id="${vacancy.id}" action="/welcome" method="post">
+                        <input type="hidden" name="vacId" value="${vacancy.id}">
+                        <input type="hidden" name="userId" value="${currentUser.id}">
+                        <input type="hidden" name="command" value="subscribe_to_vacancy">
+                        <a href="#"
+                           class="list-group-item list-group-item-action flex-column align-items-start list-group-item-secondary"
+                           onclick="document.getElementById(${vacancy.id}).submit()">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1"><c:out value="${vacancy.name}"/></h5>
+                            </div>
+                            <p class="mb-1">${vacancy.description}</p>
+                        </a>
+                    </form>
+                </c:if>
+                <c:if test="${currentUser.role eq 'HR'}">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <form id="${vacancy.id}" action="/welcome" method="post">
+                                <input type="hidden" name="id" value="${vacancy.id}">
+                                <input type="hidden" name="command" value="update_vacancy_page">
+                                <a href="#"
+                                   class="list-group-item list-group-item-action flex-column align-items-start list-group-item-secondary"
+                                   onclick="document.getElementById(${vacancy.id}).submit()">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1"><c:out value="${vacancy.name}"/></h5>
+                                    </div>
+                                    <p class="mb-1">${vacancy.description}</p>
+                                </a>
+                            </form>
+                        </div>
+                        <div class="col-lg-1">
+                            <form action="/welcome" method="post">
+                                <input type="hidden" name="id" value="${vacancy.id}">
+                                <input type="hidden" name="command" value="delete_vacancy">
+                                <input type="submit" class="btn-danger" value="<fmt:message key="home.delete"/>">
+                            </form>
+                        </div>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </div>
+    </div>
+    <div class="col-lg-3 text-danger">
+        <c:if test="${message ne null}">
+            <c:out value="${message}"/>
+        </c:if>
+    </div>
+    <div class="col-lg-3">
+        <c:if test="${currentUser.role eq 'HR'}">
 
-<c:forEach var="vacancy" items="${vacancies}">
 
-<c:out value="${vacancy.name}"/>
+            <div class="dropdown open">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <fmt:message key="home.addVacancy"/>
+                </button>
 
-<c:choose>
-    <c:when test="${currentUser.role eq 'HR'}">
+                <div class="dropdown-menu col-lg-12" aria-labelledby="dropdownMenuButton">
+                    <p class="dropdown-item">
 
+                        <form method="post" action="/welcome">
+                            <div class="form-group col-md-8">
+                                <label><fmt:message key="addVacancy.name"/></label>
+                                <input type="text" name="vacancyName" class="form-control" required
+                                       placeholder="<fmt:message key="addVacancy.enterName"/>">
+                            </div>
 
-        <form action="/welcome" method="post">
-            <input type="hidden" name="id" value="${vacancy.id}">
-            <input type="hidden" name="command" value="update_vacancy_page">
-            <input type="submit" value="<fmt:message key="home.update"/>">
-        </form>
-        <form action="/welcome" method="post">
-            <input type="hidden" name="id" value="${vacancy.id}">
-            <input type="hidden" name="command" value="delete_vacancy">
-            <input type="submit" value="<fmt:message key="home.delete"/>">
-        </form>
+                            <div class="col-md-11">
+                                <label><fmt:message key="addVacancy.description"/></label>
+                                <textarea name="description" required class="md-textarea form-control"
+                                          rows="3"></textarea>
+                            </div>
+                    <p>
+                    <div class="col-md-9">
+                        <input type="hidden" name="command" value="add_vacancy">
+                        <input type="submit" class="btn btn-success" value="<fmt:message key="addVacancy.add"/>">
+                    </div>
 
-    </c:when>
-    <c:when test="${currentUser.role eq 'SEEKER'}">
-        <form action="/welcome" method="post">
-            <input type="hidden" name="vacId" value="${vacancy.id}">
-            <input type="hidden" name="userId" value="${currentUser.id}">
-            <input type="hidden" name="command" value="subscribe_to_vacancy">
-            <input type="submit" value="<fmt:message key="home.subscribe"/>">
-        </form>
-    </c:when>
-</c:choose>
-<p>
-    </c:forEach>
+                    </form>
 
-    <c:if test="${currentUser.role eq 'HR'}">
-<form action="/welcome" method="post">
-    <input type="hidden" name="command" value="add_vacancy_page">
-    <input type="submit" value="<fmt:message key="home.addVacancy"/>">
-</form>
-    </c:if>
+                </div>
+            </div>
+        </c:if>
+    </div>
 
-<form action="/welcome" method="post">
-    <input type="hidden" name="command" value="profile_page">
-    <input type="submit" value="<fmt:message key="home.profile"/>">
-</form>
-
+</div>
 </body>
 </html>

@@ -1,0 +1,5 @@
+.brd {
+     border: 4px double darkseagreen; /* Параметры границы */
+    height: 100%;
+    width: 100%;
+ }

@@ -1,64 +1,66 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: fpfpf
-  Date: 02.02.2020
-  Time: 18:00
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
+<jsp:include page="header.jsp"/>
 <html>
 <head>
-    <title>Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+    <title></title>
 </head>
 <body>
-<form>
+<script>
+    var link = document.querySelector('link[rel=import]');
+    var content = link.import.querySelector('#some');
+    document.body.appendChild(content.cloneNode(true));
+</script>
 
-    <c:if test="${locale eq 'en' or locale eq null}">
-        <fmt:setLocale value="en"/>
-        <fmt:setBundle basename="text"/>
-    </c:if>
+<c:if test="${locale eq 'en' or locale eq null}">
+    <fmt:setLocale value="en"/>
+    <fmt:setBundle basename="text"/>
+</c:if>
 
-    <c:if test="${locale eq 'ru'}">
-        <fmt:setLocale value="ru"/>
-        <fmt:setBundle basename="text"/>
-    </c:if>
+<c:if test="${locale eq 'ru'}">
+    <fmt:setLocale value="ru"/>
+    <fmt:setBundle basename="text"/>
+</c:if>
+<div class="row">
+    <div style="margin-left: 5px" class="col-lg-5">
+        <c:forEach var="message" items="${finalDialog.messages}">
 
-<c:forEach var="message" items="${finalDialog.messages}">
-        <c:if test="${finalDialog.ownUser.id ==message.senderId}">
-            <c:out value="${finalDialog.ownUser.name}-${message.content}"/>
-        </c:if>
-        <c:if test="${finalDialog.otherUser.id ==message.senderId}">
-            <c:out value="${finalDialog.otherUser.name}-${message.content}"/>
-    </c:if><p>
-    </c:forEach>
+            <c:if test="${finalDialog.ownUser.id ==message.senderId}">
+                <div class="list-group">
+                    <a class="list-group-item-secondary list-group-item-action flex-column align-items-start ">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">${finalDialog.ownUser.name}</h5>
+                        </div>
+                        <p class="mb-1">${message.content}</p>
+                    </a>
+                </div>
+            </c:if>
+            <c:if test="${finalDialog.otherUser.id ==message.senderId}">
+                <div class="list-group">
+                    <a class="list-group-item-light list-group-item-action flex-column align-items-start ">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">${finalDialog.otherUser.name}</h5>
+                        </div>
+                        <p class="mb-1">${message.content}</p>
+                    </a>
+                </div>
+            </c:if>
 
-</form>
-<form action="/welcome" method="post">
-    <p><textarea rows="2" cols="45" name="message" required placeholder=<fmt:message key="dialog.message"/>></textarea></p>
-    <input type="hidden" name="ownUserId" value="${finalDialog.ownUser.id}">
-    <input type="hidden" name="otherUserId" value="${finalDialog.otherUser.id}">
-    <input type="hidden" name ="command" value="dialog">
-    <input type="submit" value="<fmt:message key="dialog.send"/>">
-</form>
-<form action="/welcome" method="post">
-    <input type="hidden" name ="command" value="all_dialogs_page">
-    <input type="submit" value="<fmt:message key="dialog.dialogs"/>">
-</form>
+        </c:forEach>
+    </div>
+    <div class="col-lg-4">
+        <form action="/welcome" method="post">
+            <p><textarea class="form-control" rows="2" cols="45" name="message" required placeholder=<fmt:message
+                    key="dialog.message"/>></textarea>
+            </p>
+            <input type="hidden" name="ownUserId" value="${finalDialog.ownUser.id}">
+            <input type="hidden" name="otherUserId" value="${finalDialog.otherUser.id}">
+            <input type="hidden" name="command" value="dialog">
+            <input type="submit" class="btn btn-primary" value="<fmt:message key="dialog.send"/>">
+        </form>
+    </div>
+</div>
 </body>
 </html>

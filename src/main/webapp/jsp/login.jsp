@@ -4,54 +4,61 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-<html>
+<html >
 <head>
     <title>Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<%--    <link rel="import" href="../html/bootstrap.html">--%>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <style>
+        body{
+            background-image: url("../picture/loginn.jpg") ; /* Цвет фона веб-страницы */
+        }
+        a {
+            color: lightsalmon;
+            display:inline-block;
+            text-decoration: none;
+            font-weight: 400;
+        }
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-
+        h2 {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display:inline-block;
+            margin: 40px 8px 10px 8px;
+            color: #cccccc;
+        }
+        img{
+            height: 30px;
+            width: 2px;
+        }
+    </style>
 </head>
 <body>
-
 
 <fmt:setLocale value="en"/>
 <fmt:setBundle basename="text"/>
 
-<div class="container">
-    
-    <div class="b-form b-form_responsive b-form_compact b-form_popup b-form_no-margin-bottom b-form_no-margin-top b-form_scroll-to-error b-form_wide-columns ">
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
         <form method="post" action="/welcome">
-            <label><fmt:message key="login.username"/>: <input type="text" required placeholder=
-            <fmt:message key="login.enterName"/> name="name"> </label>
-            <br>
-            <label><fmt:message key="login.password"/>: <input type="password" required placeholder=
-            <fmt:message key="login.enterPassword"/> name="password"></label>
-            <br>
+            <input minlength="4" maxlength="16" class="fadeIn second" type="text" required placeholder= <fmt:message key="login.enterName"/> name="name">
+            <input minlength="4" maxlength="16" class="fadeIn third" type="password" required placeholder= <fmt:message key="login.enterPassword"/> name="password">
             <input type="hidden" name="command" value="login">
-            <input class="btn btn-success" type="submit" value="<fmt:message key="login.login"/>">
+            <input class="btn btn-success fadeIn fourth" type="submit" value="<fmt:message key="login.login"/>">
         </form>
 
-        <form  method="post" action="/welcome">
-            <input type="hidden" name="command" value="registration_page">
-            <input class="btn btn-info" type="submit" value="<fmt:message key="login.registration"/>">
-        </form>
+        <c:if test="${message !=null}">
+            <p  class="text-danger fadeIn fifth"><c:out value="${message}"/></p>
+        </c:if>
+
+        <div id="formFooter">
+            <a class="underlineHover" href="../jsp/registration.jsp">Registration</a>
+        </div>
+
     </div>
-
-    <c:if test="${message !=null}">
-        <p class="text-danger"><c:out value="${message}"/></p>
-    </c:if>
 </div>
-
-</body>
 </html>
