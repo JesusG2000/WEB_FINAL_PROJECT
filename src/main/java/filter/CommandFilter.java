@@ -35,6 +35,9 @@ public class CommandFilter implements Filter {
         seekerCommands.add(CommandName.LOGIN.name());
         seekerCommands.add(CommandName.LOGOUT.name());
         seekerCommands.add(CommandName.CHANGE_LANGUAGE.name());
+        seekerCommands.add(CommandName.CHANGE_PASSWORD.name());
+        seekerCommands.add(CommandName.SUBMIT_RESUME.name());
+        seekerCommands.add(CommandName.RESUME_PAGE.name());
 
         hrCommands.add(CommandName.ADD_VACANCY_PAGE.name());
         hrCommands.add(CommandName.ADD_VACANCY.name());
@@ -53,6 +56,7 @@ public class CommandFilter implements Filter {
         hrCommands.add(CommandName.LOGOUT.name());
         hrCommands.add(CommandName.LOGIN.name());
         hrCommands.add(CommandName.CHANGE_LANGUAGE.name());
+        hrCommands.add(CommandName.CHANGE_PASSWORD.name());
 
         adminCommands.add(CommandName.ADMIN_HOME_PAGE.name());
         adminCommands.add(CommandName.DELETE_USER.name());
@@ -66,6 +70,7 @@ public class CommandFilter implements Filter {
         adminCommands.add(CommandName.LOGIN.name());
         adminCommands.add(CommandName.LOGOUT.name());
         adminCommands.add(CommandName.CHANGE_LANGUAGE.name());
+        adminCommands.add(CommandName.CHANGE_PASSWORD.name());
 
         defaultCommands.add(CommandName.REGISTRATION_PAGE.name());
        // defaultCommands.add(CommandName.LOGIN_PAGE.name());
