@@ -1,29 +1,24 @@
 package controller.impl.general;
 
-import bean.User;
 import controller.Command;
-import controller.CommandName;
-import controller.CommandProvider;
 import exception.CommandException;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 public class LoginPage implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
 
-        //System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-        User user = (User)  req.getSession().getAttribute("user");
-
-        HttpSession session = req.getSession();
-        session.setAttribute("user", user);
-
-        Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
-        command.execute(req, resp);
-
+        try {
+            resp.sendRedirect("/jsp/login.jsp");
+        } catch (IOException e) {
+            throw new CommandException(e);
+        }
     }
 
 

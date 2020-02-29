@@ -4,6 +4,7 @@ import controller.Command;
 import exception.CommandException;
 import org.apache.log4j.Logger;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,9 +16,9 @@ public class AddVacancyPage implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
 
-            resp.sendRedirect("/jsp/addVacancy.jsp");
+            req.getRequestDispatcher("/jsp/addVacancy.jsp").forward(req,resp);
 
-        } catch (IOException e) {
+        } catch (IOException | ServletException e) {
             log.error(e);
             throw new CommandException(e);
         }

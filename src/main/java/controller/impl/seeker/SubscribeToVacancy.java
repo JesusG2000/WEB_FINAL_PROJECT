@@ -14,21 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SubscribeToVacancy  implements Command {
-    private VacRespondedService vacRespondedService = ServiceFactory.getInstance().getVacRespondedService();
-    private static Logger log = Logger.getLogger(SubscribeToVacancy.class);
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
-        try {
-                int vacId = Integer.parseInt(req.getParameter("vacId"));
-                int userId = Integer.parseInt(req.getParameter("userId"));
+        Command command = CommandProvider.getInstance().getCommand(CommandName.RESUME_PAGE.name());
+        command.execute(req, resp);
 
-                vacRespondedService.create(new VacResponded(userId, vacId));
-                Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
-                command.execute(req, resp);
-
-        } catch (ServiceException e) {
-            log.error(e);
-           throw new CommandException(e);
-        }
     }
 }

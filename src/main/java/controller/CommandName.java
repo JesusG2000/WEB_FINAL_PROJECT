@@ -2,7 +2,7 @@ package controller;
 
 public enum CommandName {
     LOGIN,
-    // LOGIN_PAGE,
+     LOGIN_PAGE,
     REGISTRATION,
     REGISTRATION_PAGE,
     MAIN_PAGE,
@@ -31,7 +31,10 @@ public enum CommandName {
     DELETE_DIALOG,
     DIALOG,
 
-    CHANGE_LANGUAGE
+    CHANGE_LANGUAGE,
+    SUBMIT_RESUME,
+    RESUME_PAGE,
+    CHANGE_PASSWORD
 
 
 }

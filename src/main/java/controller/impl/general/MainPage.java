@@ -19,15 +19,16 @@ public class MainPage implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
             HttpSession session = req.getSession();
-            User user = (User)  req.getSession().getAttribute("user");
+            User user = (User)  session.getAttribute("user");
+            Command command;
             if (user != null) {
+                command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
 
-                Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
-                command.execute(req, resp);
             } else {
-                resp.sendRedirect("/jsp/login.jsp");
+                command = CommandProvider.getInstance().getCommand(CommandName.LOGIN_PAGE.name());
             }
-        } catch (IOException e) {
+            command.execute(req, resp);
+        } catch (NullPointerException e) {
             log.error(e);
             throw new CommandException("Redirect to page error", e);
         }

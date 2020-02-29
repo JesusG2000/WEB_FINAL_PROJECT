@@ -23,8 +23,6 @@ public class UpdateVacancyPage  implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-
-
                 Vacancy vacancy = vacancyService.readById(Integer.parseInt(req.getParameter("id")));
                 req.setAttribute("vacancy", vacancy);
                 req.setAttribute("seekers", userService.getAllByVacancy(vacancy));

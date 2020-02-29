@@ -30,8 +30,8 @@ public class SubmitInterview implements Command {
             Interview interview = new Interview(hrId, seekerId, vacId, date, comment);
 
             interviewService.create(interview);
-
-            Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
+            req.setAttribute("success","table-success");
+            Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
             command.execute(req, resp);
         } catch (ServiceException e) {
             log.error(e);

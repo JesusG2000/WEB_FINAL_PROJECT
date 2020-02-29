@@ -27,17 +27,18 @@ public class DeleteVacancy implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User user = (User) (User) req.getSession().getAttribute("user");
-
+            User user = (User) req.getSession().getAttribute("user");
+            if(req.getParameter("id")!=null) {
             int vacancyId = Integer.parseInt(req.getParameter("id"));
 
-            notifySeekers(user, vacancyId);
-            vacancyService.deleteById(vacancyId);
+               notifySeekers(user, vacancyId);
+               vacancyService.deleteById(vacancyId);
 
+           }
             Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
             command.execute(req,resp);
 
-        } catch (ServiceException e) {
+        } catch (ServiceException | NullPointerException e) {
             log.error(e);
             throw new CommandException(e);
         }

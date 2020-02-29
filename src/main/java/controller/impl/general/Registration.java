@@ -20,25 +20,33 @@ public class Registration implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
-        String nameGET = req.getParameter("name");
-        String passwordGET = req.getParameter("password");
-        User user = new User(nameGET, passwordGET);
+        String userName = req.getParameter("name");
+        String password = req.getParameter("password");
+        String confirmPassword = req.getParameter("confirmPassword");
+        User user = new User(userName, password);
         try {
-            if ((nameGET.length() < 4 && passwordGET.length() < 4) || (nameGET.length()>16 && passwordGET.length()>16)) {
-                RequestDispatcher dispatcher = req.getRequestDispatcher("/registration.jsp");
-                req.setAttribute("message", "Length might be from 4 to 16");
-
-                dispatcher.forward(req, resp);
-            }
-            if (!userService.isRegistered(user)) {
-                userService.create(user);
-                resp.sendRedirect("/jsp/login.jsp");
-            } else {
+            if ((userName.length() < 4 && password.length() < 4) || (userName.length() > 16 && password.length() > 16)) {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/registration.jsp");
-                req.setAttribute("message", "This user has already registered");
-
+                req.setAttribute("message", "Length might be from 4 to 16");
                 dispatcher.forward(req, resp);
+
+            } else {
+                if (!password.equals(confirmPassword)) {
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/registration.jsp");
+                    req.setAttribute("message", "Passwords doesn't confirm");
+                    dispatcher.forward(req, resp);
+                } else {
+                    if (!userService.isRegistered(user)) {
+                        userService.create(user);
+                        resp.sendRedirect("/jsp/login.jsp");
+                    } else {
+                        RequestDispatcher dispatcher = req.getRequestDispatcher("/jsp/registration.jsp");
+                        req.setAttribute("message", "This user has already registered");
+                        dispatcher.forward(req, resp);
+                    }
+                }
             }
+
         } catch (ServletException | IOException | ServiceException e) {
             log.error(e);
             throw new CommandException(e);

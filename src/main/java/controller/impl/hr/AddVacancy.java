@@ -28,15 +28,18 @@ public class AddVacancy implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
 
         try {
-            User user = (User) (User) req.getSession().getAttribute("user");
+            User user = (User) req.getSession().getAttribute("user");
 
-            String name = req.getParameter("name");
+            String name = req.getParameter("vacancyName");
             String description = req.getParameter("description");
             Vacancy vacancy = new Vacancy(name, description);
+
             notifySeekers(user, name);
             vacancyService.create(vacancy);
 
+
             Command command = CommandProvider.getInstance().getCommand(CommandName.HOME_PAGE.name());
+
             command.execute(req, resp);
 
         } catch (ServiceException e) {

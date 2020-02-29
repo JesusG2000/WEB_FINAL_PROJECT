@@ -16,6 +16,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DialogPage implements Command {
@@ -27,7 +29,7 @@ public class DialogPage implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
         try {
-            User ownUser = (User) (User) req.getSession().getAttribute("user");
+            User ownUser = (User) req.getSession().getAttribute("user");
 
 
             int otherUserId = Integer.parseInt(req.getParameter("otherUserId"));
@@ -36,6 +38,11 @@ public class DialogPage implements Command {
             List<Message> messages = messageService.getAllMessageByUser(ownUser);
             List<Dialog> dialogs = messageService.createDialogs(messages, ownUser.getId());
             Dialog finalDialog = dialogService.getDialogByUsers(dialogs, ownUser, otherUser);
+
+            List<Message> sort = finalDialog.getMessages();
+            sort.sort(new SortId());
+
+            finalDialog.setMessages(sort);
             req.setAttribute("finalDialog", finalDialog);
 
             req.getRequestDispatcher("/jsp/dialog.jsp").forward(req, resp);
@@ -47,4 +54,12 @@ public class DialogPage implements Command {
     }
 
 
+
+    private static class SortId implements Comparator<Message>{
+
+        @Override
+        public int compare(Message o1, Message o2) {
+            return -o1.getId()+o2.getId();
+        }
+    }
 }

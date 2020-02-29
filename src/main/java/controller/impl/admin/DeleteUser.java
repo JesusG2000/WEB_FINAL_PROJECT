@@ -30,7 +30,7 @@ public class DeleteUser implements Command {
             vacRespondedService.deleteAllVacRespondedBySeeker(deleteUser);
             userService.deleteById(deleteUser.getId());
 
-            Command command = CommandProvider.getInstance().getCommand(CommandName.ADMIN_HOME_PAGE.name());
+            Command command = CommandProvider.getInstance().getCommand(CommandName.PROFILE_PAGE.name());
             command.execute(req, resp);
 
 

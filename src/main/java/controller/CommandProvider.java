@@ -5,6 +5,8 @@ import controller.impl.admin.AdminHomePage;
 import controller.impl.admin.DeleteUser;
 import controller.impl.general.*;
 import controller.impl.hr.*;
+import controller.impl.seeker.SubmitResume;
+import controller.impl.seeker.ResumePage;
 import controller.impl.seeker.SubscribeToVacancy;
 
 import java.util.HashMap;
@@ -16,13 +18,13 @@ public final class CommandProvider {
 
     CommandProvider() {
         commandMap.put(CommandName.LOGIN, new Login());
-        //commandMap.put(CommandName.LOGIN_PAGE, new LoginPage());
+        commandMap.put(CommandName.LOGIN_PAGE, new LoginPage());
         commandMap.put(CommandName.REGISTRATION, new Registration());
         commandMap.put(CommandName.REGISTRATION_PAGE, new RegistrationPage());
         commandMap.put(CommandName.MAIN_PAGE, new MainPage());
 
 
-        commandMap.put(CommandName.ALL_DIALOGS_PAGE, new AllDialogsPage());//all_dialogs_page
+        commandMap.put(CommandName.ALL_DIALOGS_PAGE, new AllDialogsPage());
         commandMap.put(CommandName.HOME_PAGE, new HomePage());
         commandMap.put(CommandName.ADMIN_HOME_PAGE, new AdminHomePage());
         commandMap.put(CommandName.LOGOUT, new Logout());
@@ -46,6 +48,9 @@ public final class CommandProvider {
         commandMap.put(CommandName.DELETE_DIALOG, new DeleteDialog());
         commandMap.put(CommandName.DIALOG, new Dialog());
         commandMap.put(CommandName.CHANGE_LANGUAGE , new ChangeLanguage());
+        commandMap.put(CommandName.SUBMIT_RESUME, new SubmitResume());
+        commandMap.put(CommandName.RESUME_PAGE , new ResumePage());
+        commandMap.put(CommandName.CHANGE_PASSWORD , new ChangePassword());
        // commandMap.put(CommandName.ERROR, new ErrorPage());
 
 
