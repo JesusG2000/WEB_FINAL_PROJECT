@@ -51,4 +51,20 @@ public class JdbcMapper {
         vacResponded.setVacancyId(resultSet.getInt("vacancy_id"));
         return vacResponded;
     }
+
+    public Resume resumeMap(ResultSet resultSet) throws SQLException {
+        Resume resume = new Resume();
+
+        resume.setId(resultSet.getInt("id"));
+        resume.setUserId(resultSet.getInt("user_id"));
+        resume.setVacancyId(resultSet.getInt("vacancy_id"));
+        resume.setUserName(resultSet.getString("user_name"));
+        resume.setUserSurname(resultSet.getString("user_surname"));
+        resume.setUserAge(resultSet.getInt("user_age"));
+        resume.setUserLanguage(resultSet.getString("user_language"));
+        resume.setUserWorkExperience(resultSet.getString("user_work_experience"));
+        resume.setUserInfo(resultSet.getString("user_info"));
+
+        return resume;
+    }
 }

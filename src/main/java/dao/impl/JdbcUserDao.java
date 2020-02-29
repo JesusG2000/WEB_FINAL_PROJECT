@@ -254,7 +254,24 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public User update(User user) throws JdbcDaoException {
-        return null;
+        String sqlInsertUser = "UPDATE users set password=? where id = ? ";
+
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(sqlInsertUser);
+            statement.setString(1,user.getPassword());
+            statement.setInt(2,user.getId());
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            log.error(e);
+            throw new JdbcDaoException("Prepared statement error", e);
+        } finally {
+            connectionPool.closeConnection(connection, statement);
+        }
+
+        return user;
     }
 
     @Override

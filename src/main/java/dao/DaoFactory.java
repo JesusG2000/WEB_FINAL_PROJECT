@@ -9,6 +9,7 @@ public final class DaoFactory {
     private static final UserDao userDao = new JdbcUserDao();
     private static final VacancyDao vacancyDao = new JdbcVacancyDao();
     private static final VacRespondedDao vacRespondedDao = new JdbcVacRespondedDao();
+    private static final ResumeDao resumeDao = new JdbcResumeDao();
 
     private DaoFactory() {
     }
@@ -35,5 +36,9 @@ public final class DaoFactory {
 
     public VacRespondedDao getVacRespondedDao() {
         return vacRespondedDao;
+    }
+
+    public  ResumeDao getResumeDao() {
+        return resumeDao;
     }
 }
