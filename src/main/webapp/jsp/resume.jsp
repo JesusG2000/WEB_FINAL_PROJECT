@@ -51,13 +51,13 @@
     <div class="col-md-3">
         <label class="mr-sm-2"><fmt:message key="resume.work.experience"/></label>
         <select required name="userWorkExperience" class="custom-select mr-sm-2">
-            <option  value="<fmt:message key="resume.work.experience.1"/>"><fmt:message key="resume.work.experience.1"/></option>
-            <option  value="<fmt:message key="resume.work.experience.2"/>"><fmt:message key="resume.work.experience.2"/></option>
-            <option  value="<fmt:message key="resume.work.experience.3"/>"><fmt:message key="resume.work.experience.3"/></option>
-            <option  value="<fmt:message key="resume.work.experience.4"/>"><fmt:message key="resume.work.experience.4"/></option>
-            <option  value="<fmt:message key="resume.work.experience.5"/>"><fmt:message key="resume.work.experience.5"/></option>
-            <option  value="<fmt:message key="resume.work.experience.6"/>"><fmt:message key="resume.work.experience.6"/></option>
-            <option  value="<fmt:message key="resume.work.experience.7"/>"><fmt:message key="resume.work.experience.7"/></option>
+            <option  value="less 1 year"><fmt:message key="resume.work.experience.1"/></option>
+            <option  value="1 year"><fmt:message key="resume.work.experience.2"/></option>
+            <option  value="2 year"><fmt:message key="resume.work.experience.3"/></option>
+            <option  value="3 year"><fmt:message key="resume.work.experience.4"/></option>
+            <option  value="4 year"><fmt:message key="resume.work.experience.5"/></option>
+            <option  value="5 year"><fmt:message key="resume.work.experience.6"/></option>
+            <option  value="more than 5 years"><fmt:message key="resume.work.experience.7"/></option>
         </select>
     </div>
 
